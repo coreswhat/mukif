@@ -29,7 +29,7 @@ application: http://github.com/cores/mukift.
   $ git clone http://github.com/cores/mukif.git
   $ cd mukif  
   $ bundle install  
-  $ padrino rake app_custom_files:generate
+  $ rake app_custom_files:generate
   + set your database settings in 'config/database.rb'
   $ padrino rake ar:create
   $ padrino rake ar:migrate
