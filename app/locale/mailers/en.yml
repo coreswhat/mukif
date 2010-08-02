@@ -1,0 +1,9 @@
+# * WARNING: changing this file may break the tests *
+
+en:
+  mailer:
+    app_mailer:
+      account_recovery_email:
+        subject: "account recovery"
+      invitation_email:
+        subject: "invitation to our site"

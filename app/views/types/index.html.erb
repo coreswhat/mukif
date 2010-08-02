@@ -1,0 +1,72 @@
+
+<% page_name 'Types' %>
+
+<div class="main">
+  
+  <h2>types</h2>
+
+  <%= partial 'misc/flash' %>
+
+  <div class="links">
+    <%= link_to '[ new ]', url(:types, :new), :class => 'admin' %>
+  </div>
+  
+  <table class="browse">
+    <tr>
+      <td class="header">
+        &nbsp; id &nbsp;
+      </td>
+      <td class="header">
+        description
+      </td>
+      <td class="header_order_by">
+        position
+      </td>
+      <td class="header">
+        image
+      </td>
+      <td class="header">
+        label
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+    </tr>
+    <% unless @types.blank? %>
+      <% @types.each do |t| %>
+        <tr>
+          <td>
+            <%= t.id %>
+          </td>
+          <td>
+            <%= t.description %>
+          </td>
+          <td>
+            <%= t.position %>
+          </td>
+          <td>
+            <%= t.image %>
+          </td>
+          <td class="no_padding">
+            <%= type_label t %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ edit ]', url(:types, :edit, :id => t), :class => 'admin' %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ delete ]', url(:types, :destroy, :id => t), :method => :delete, :class => 'admin', :confirm => 'Are you sure?' %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7">
+          no types found
+        </td> 
+      </tr>
+    <% end %>
+  </table>
+</div>

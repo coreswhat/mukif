@@ -1,0 +1,263 @@
+
+# Capistrano recipe for deployment, in this case the user do not
+# need to act as sudo.
+#
+# Important: if you are deploying the code from your LOCAL machine
+# repository to the server, ALWAYS commit your changes or they won't
+# be deployed.
+#
+# It is also possible to deploy from a remote git repository to the server:
+#   + switch the comments in the 'repository' and 'deploy strategy' sections
+#   + set the repository url
+#   + install git in the server (enable it in 'deploy/install.rb')
+#
+# - first deploy:
+#   $ cap deploy:cold
+#
+# - setup deploy dir structure:
+#   $ cap deploy:setup
+#
+# - new release:
+#   $ cap deploy
+#
+# - rollback
+#   $ cap deploy:rollback
+#
+# - config:
+#   + set config files
+#     $ cap deploy:config
+#
+#   + set a particular config file
+#     $ cap deploy:config:set_file file=config.yml
+#
+#   + set authentication keys
+#     $ cap deploy:set_auth_keys_file
+#
+# - restart app:
+#   $ cap deploy:restart 
+#
+# - cleanup old releases
+#   $ cap deploy:cleanup
+
+set :application, 'mukif'
+
+# server  
+
+  set :domain, 'localhost'
+  set :port, 22
+
+# roles
+
+  role :app, domain
+  role :web, domain
+  role :db,  domain, :primary => true
+
+# user
+
+  set :user, application
+
+  Capistrano::CLI.ui.say('Please provide the app user password:')
+  Capistrano::CLI.ui.say(" > username: #{user}")
+  set :password, Capistrano::CLI.password_prompt(' > password: ')
+
+  set :use_sudo, false
+
+# scm
+
+  set :scm, :git
+  default_run_options[:pty] = true
+
+# repository
+
+  set :branch, 'master'
+  # remote
+    # set :repository, 'git://github.com/user/repo.git'
+  # local
+    set :repository, '.'
+
+# cleanup 
+
+  set :keep_releases, 2
+
+# deploy strategy
+
+  # remote repository
+    # set :deploy_via, :remote_cache
+    # set :repository_cache, 'git_cache'
+  # local repository
+    set :deploy_via, :copy
+    
+    excluded =  ['.git/*', '.gitignore', '.project/*', 'Capfile', 'cucumber.yml', 'README']
+    excluded += ['deploy/*', 'features/*', 'log/*', 'spec/*'] 
+    excluded += ['config/bg_tasks.*', 'config/database.*', 'config/mukif.*', 'config/schedule.*', 'config/auth_keys.*']
+    excluded += ['db/seeds/app_data.*']
+    set :copy_exclude, excluded
+
+# deploy
+
+  set :deploy_to, "/var/vhosts/#{application}"
+  
+  set :shared_config_path, "#{shared_path}/system/config"
+  set :shared_seeds_path, "#{shared_path}/system/db/seeds"
+   
+  set :release_config_path, "#{release_path}/config"
+  set :release_seeds_path, "#{release_path}/db/seeds"     
+
+  set :tracker_app_path, '/var/vhosts/mukift'
+
+  namespace :deploy do
+    
+    task :cold do
+      setup
+      config.cold
+      update
+      migrate
+      seeds
+      whenever_update
+      start
+    end
+    
+    task :migrate, :roles => :db, :only => { :primary => true } do
+      run "cd #{current_path} && bundle exec padrino rake ar:migrate -e production"
+    end    
+
+    task :seeds, :roles => :db, :only => { :primary => true } do
+      run "cd #{current_path} && bundle exec padrino rake seed -e production"
+    end    
+
+    task :whenever_update, :roles => :db do
+      run "cd #{current_path} && bundle exec whenever --set environment=production --update-crontab #{application}"
+    end
+
+    task :start, :roles => :app do
+      restart
+    end
+
+    task :stop, :roles => :app do
+      # nothing
+    end
+
+    task :restart, :roles => :app, :except => { :no_release => true } do
+      run "touch #{current_path}/tmp/restart.txt"
+    end
+    
+    desc 'Create tracker symlink to tracker app (check template/mukif.erb).'
+    task :tracker_symlink, :roles => :app do
+      run "ln -s #{tracker_app_path}/current/public #{release_path}/public/tracker"
+    end   
+                
+    after 'deploy:update_code' do
+      config.symlinks # create the symlinks for the config files in the new release config dir
+      tracker_symlink
+      bundler.bundle_new_release
+    end
+
+    namespace :bundler do
+      
+      task :bundle_new_release, :roles => :app do
+        bundler.create_symlink
+        run "cd #{current_release} && bundle install --without development test deploy"
+      end
+      
+      task :create_symlink, :roles => :app do
+        shared_dir = File.join(shared_path, 'bundle')
+        release_dir = File.join(current_release, '.bundle')
+        run "mkdir -p #{shared_dir} && ln -s #{shared_dir} #{release_dir}"
+      end
+      
+      task :lock, :roles => :app do
+        run "cd #{current_release} && bundle lock;"
+      end
+      
+      task :unlock, :roles => :app do
+        run "cd #{current_release} && bundle unlock;"
+      end
+    end
+
+    # Tasks that upload and replace the application's config files so they can remain
+    # stored in the 'shared/system' directory through deployments.
+    namespace :config do
+      set :local_config_path, 'config'
+      set :local_seeds_path, 'db/seeds'
+      
+      set :config_files, ['bg_tasks.yml', 'database.rb', 'mukif.yml', 'schedule.rb']
+      set :auth_keys_file, 'auth_keys.rb'
+      set :seeds_files, ['app_data.rb']
+
+      desc 'Set config dirs and files and restart app.'
+      task :default, :roles => :app do
+        set_dirs
+        set_config_files
+      end
+
+      desc 'Set config dir and all config files, including auth keys and seeds.'
+      task :cold, :roles => :app do
+        set_dirs
+        set_config_files
+        set_auth_keys_file
+        set_seeds_files
+      end
+
+      desc 'Create config dirs.'
+      task :set_dirs, :roles => :app do
+        run "mkdir -p #{shared_config_path}"
+        run "mkdir -p #{shared_seeds_path}"
+      end
+
+      desc 'Set config files.'
+      task :set_config_files, :roles => :app do
+        config_files.each do |f|
+          run "rm -f #{shared_config_path}/#{f}"
+          top.upload "#{local_config_path}/#{f}", "#{shared_config_path}/#{f}"
+        end
+      end
+
+      desc 'Set a particular config file.'
+      task :set_file, :roles => :app do        
+        f = ENV['file']
+        raise 'the given file does not appear to be a config file' unless config_files.include?(f)
+        run "rm -f #{shared_config_path}/#{f}"
+        top.upload "#{local_config_path}/#{f}", "#{shared_config_path}/#{f}"
+      end
+
+      desc 'Set authentication keys file.'
+      task :set_auth_keys_file, :roles => :app do
+        file_exist = capture("if [ -e #{shared_config_path}/#{auth_keys_file} ]; then echo 'yes'; fi").strip == 'yes'
+        if file_exist
+          unless Capistrano::CLI.ui.agree('  * WARNING: Authentication keys file already present on server, changing it will invalidate all current passwords. Set anyway? (y/n):')
+            abort = true
+          end          
+        end
+        unless abort
+          run "rm -f #{shared_config_path}/#{auth_keys_file}"
+          top.upload "#{local_config_path}/#{auth_keys_file}", "#{shared_config_path}/#{auth_keys_file}"
+        end
+      end
+
+      desc 'Set seeds files.'
+      task :set_seeds_files, :roles => :app do
+        seeds_files.each do |f|
+          run "rm -f #{shared_seeds_path}/#{f}"
+          top.upload "#{local_seeds_path}/#{f}", "#{shared_seeds_path}/#{f}"
+        end
+      end
+
+      desc 'Set config files, auth keys file and seeds files symlinks for the newest release.'
+      task :symlinks, :roles => :app do
+        run "mkdir -p #{release_config_path}"
+        # config files
+        config_files.each {|f| run "ln -s #{shared_config_path}/#{f} #{release_config_path}/#{f}" }
+        # auth keys file
+        run "ln -s #{shared_config_path}/#{auth_keys_file} #{release_config_path}/#{auth_keys_file}"
+        # seeds files
+        seeds_files.each {|f| run "ln -s #{shared_seeds_path}/#{f} #{release_seeds_path}/#{f}" }
+      end
+    end
+  end
+
+
+
+
+
+
+

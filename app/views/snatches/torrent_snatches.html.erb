@@ -1,0 +1,83 @@
+
+<% page_name 'Torrent Snatches' %>
+
+<div class="main">
+  
+  <h2>Torrent Snatches</h2>
+  
+  <div class="torrent_header">
+    <%= torrent_link @torrent %>
+  </div>
+
+  <% if !@snatches.blank? && @snatches.size > 15 %>
+    <%= will_paginate @snatches %>
+  <% end %>
+
+  <table class="browse">
+    <tr>
+      <td class="header_order_by">
+        When
+      </td>
+      <td class="header">
+        By
+      </td>
+    </tr>
+    <% unless @snatches.blank? %>
+      <% @snatches.each do |s| %>
+        <tr>
+          <td>
+            <%= textual_time_interval s.created_at, 'ago' %>
+          </td>
+          <td>
+            <%= s.user ? user_link(s.user) : 'unknown' %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="2">
+          No snatches found.
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @snatches %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

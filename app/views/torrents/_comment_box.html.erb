@@ -1,0 +1,17 @@
+
+  <div class="comment_box" style="width:550px;">
+    <% form_tag url(:comments, :create, :torrent_id => torrent) do %>
+      <table>
+        <tr>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'comment_body', :align => 'center' }) { text_area_tag :comment_body, :id => 'comment_body', :rows => 6, :cols => 65 } %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= submit_tag 'Submit', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>

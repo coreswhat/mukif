@@ -1,0 +1,39 @@
+
+<% page_name 'Torrent Deletion' %>
+
+<div class="main">
+  
+  <h2>torrent deletion</h2>
+
+  <div class="torrent_header">
+    <%= torrent_link @torrent %>
+  </div>
+
+  <div class="fields_box" style="width:620px;">
+    <% form_tag url(:torrents, :destroy, :id => @torrent), :method => :delete do %>
+      <table>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td class="label">
+                  reason:
+                </td>
+                <td>
+                  <%= text_field_tag :reason, :size => 70, :maxlength => 100 %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'delete', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

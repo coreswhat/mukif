@@ -1,0 +1,71 @@
+
+  <table class="comment" id="comment_<%= comment.id %>">
+    <tr>
+      <td class="head" colspan="2">
+        <div class="float_left">
+          <ul class="compact">
+            <li><%= comment.comment_number %></li>
+            <li>|</li>
+            <li>
+              by
+              <%= comment.user ? user_link(comment.user) : 'unknown' %>
+              -
+              <%= textual_time_interval comment.created_at, 'ago' %>
+            </li>
+            <% unless comment.edited_at.blank? %>
+              <li>
+                <span class="edited_by">
+                  <%= "(edited by #{comment.edited_by} #{textual_time_interval comment.edited_at, 'ago'})" %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+
+        <div class="float_right">
+          <ul class="menu">
+            <% if comment.editable_by? current_user %>              
+              <li><%= link_to 'edit', url(:comments, :edit, :torrent_id => torrent, :id => comment, :page => current_page) %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if current_user != comment.user %>
+              <li><%= link_to 'report', url(:reports, :new, :type => 'comment', :id => comment) %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if !torrent.comments_locked || current_user.admin_mod? %>
+              <li>
+                <%= link_to 'quote', url(:comments, :quote, :id => comment, :format => :js), :class => 'quote_link hide', :remote => true %>                  
+                <span class="quote_link_no_script grey">quote</span>
+              </li>
+            <% else %>
+              <li><span class="grey">quote</span></li>
+            <% end %>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="avatar">
+        <%= avatar_image comment.user %>
+      </td>
+      <td class="body" valign="top">
+        <div class="user_content">
+          <%= parse_data_to_html comment.body %>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+

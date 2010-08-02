@@ -1,0 +1,99 @@
+
+This dir contains recipes for installing all the required software in 
+the server (sprinkle + passenger-stack) and for deploying the app (capistrano).
+
+# dir structure:
+
+  - app_root
+    - deploy
+      - stack             - sprinkle installation packages
+      - templates         - templates for generated files
+        + mukif.erb         + app passenger config file
+      + backup.rb         + capistrano tasks for backup
+      + deploy.rb         + capistrano tasks for deployment
+      + install.rb        + sprinkle recipe to install a passenger stack in the server
+      + prepare.rb        + capistrano tasks to prepare the server for deployment
+  
+# deploying
+
+  - all commands are called in the app root dir of your local machine, unless when specified
+
+  - currently the 'prepare' recipe will also place a sub uri directive to the tracker app
+    in the passenger config file so that the tracker app can be deployed in a sub uri (check
+    'deploy/templates/mukif.erb).  
+
+  - local code repository
+    - currently the deploy recipe will look for the code in the git repository of your local
+      machine, but if you prefer to deploy from the remote repository then check 'deploy/deploy.rb'
+      on how to do that and ignore the steps below
+    + install git in your local machine
+    + if Windows is your local system, install Tar
+      + download tar at http://gnuwin32.sourceforge.net/packages/libarchive.htm
+      + extract the files in C:\Program Files\GnuWin32\bin
+      + create a copy of bsdtar.exe and rename it to tar.exe
+      + add 'C:\Program Files\GnuWin32\bin' to PATH
+
+  - server ssh port
+    + set the ssh port in the recipes if server is not using the default port (22)    
+
+  - first deploy
+    
+    - install (install all required software and gems if necessary)
+      + make sure you can connect to the server through ssh
+      + install capistrano and sprinkle in your local machine if needed
+        $ gem install capistrano
+        $ gem install sprinkle
+      $ sprinkle -v -c -s deploy/install.rb
+  
+    - prepare (creates app user, app dir and passenger app config)
+      $ cap -f deploy/prepare.rb prepare_server
+  
+    - database setup (this step has to be done manually)
+      + log in on your server via ssh
+        $ ssh -l <user> -p 22 localhost
+      + log in on mysql
+        $ mysql -u root -p
+      + set the root's password if needed
+        mysql> SET PASSWORD FOR root@localhost=PASSWORD('root_password_here');
+      + create
+        mysql> create database mukif_production;
+      + create database user for the app
+        mysql> GRANT ALL PRIVILEGES ON mukif_production.* TO 'user_username_here'@localhost IDENTIFIED BY 'user_password_here';
+      + add the username and password to your local file 'config/database.rb' (production entry)
+  
+    - deploy (upload config files, seeds and code, run migrations and seeds and restart)
+      + be certain that all the configuration files are prepared
+      $ cap deploy:cold
+  
+    - now the app should be running, use owner/owner or system/system to log in
+
+  - deploying a new release  
+    + commit your changes
+    $ cap deploy
+
+  - changing the config files
+  
+    - replace the config files in the server with your local ones
+      $ cap deploy:config
+
+    - replace a particular config file in the server with your local one
+      $ cap deploy:config:set_file file=config_file.yml
+
+    - replace authentication keys file (all passwords will get stale if keys changed!!!)
+      $ cap deploy:config:set_auth_keys
+
+    - note that the local config files are uploaded directly from your local machine to the 
+      server without using git, so no need to commit when they change
+      
+  - restarting app
+    $ cap deploy:restart
+     
+# references:
+
+  + http://github.com/crafterm/sprinkle/tree/master
+  + http://github.com/benschwarz/passenger-stack/tree/master
+  + http://wiki.capify.org/index.php/Main_Page
+
+
+
+

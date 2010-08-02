@@ -1,0 +1,37 @@
+
+Background tasks module. 
+
+# dir structure:
+
+  - app_root
+    - app
+      - models
+        - bg_task               - bg_task concern dir 
+          + ...                   + actual bg_tasks business implementations 
+        + bg_task.rb            + bg_task model main class, invoke the business tasks methods
+        + bg_task_param.rb      + model used to store a bg_task param
+    - config    
+      + bg_tasks.yml            + bg_tasks declarations and config
+    - lib
+      - bg_tasks  
+        + bg_tasks.rb           + register helpers on app
+        + dispatcher.rb         + retrieve stored tasks and execute them
+        + support.rb            + support methods
+      - tasks
+        + bg_tasks_mock.rake    + uses a simple loop to mock the bg_tasks rake task
+        + bg_tasks.rake         + bg_tasks rake task
+
+# creating a new task
+  + create an entry in bg_tasks.yml
+  + add a new bg_tasks concern file
+  + reload the tasks in the bg_tasks page
+
+# running the bg_tasks
+  $ padrino rake bg_tasks:exec -e development
+
+# running the bg_tasks mock
+  $ padrino rake bg_tasks_mock:exec -e development
+
+# scheduling as cron job
+  + configure the file 'config/schedule.rb'
+  $ whenever --set environment=development --update-crontab mukif  

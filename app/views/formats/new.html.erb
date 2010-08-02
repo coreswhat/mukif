@@ -1,0 +1,33 @@
+
+<% page_name 'Formats' %>
+
+<div class="main">
+  
+  <h2>new format</h2>
+  
+  <div class="fields_box" style="width:600px;">
+    <% form_for :format, url(:formats, :create) do |f| %>
+      <table>
+        <tr>
+          <td class="label">
+            description:
+          </td>
+          <td>
+            <%= f.text_field :description, :size => 35 %>
+          </td>
+          <td class="label">
+            position:
+          </td>
+          <td>
+            <%= f.text_field :position, :size => 3 %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="6" class="center">
+            <%= submit_tag 'confirm', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

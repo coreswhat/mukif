@@ -1,0 +1,133 @@
+# * WARNING: changing this file may break the tests *
+
+en:
+  c:
+    accounts:
+      recovery:
+        delivery_error: "An error occurred and the email could not be sent. Please try again later."
+        invalid_email: "Email address not associated with a valid account."
+        success: "A password recovery link has been sent to %{email}."
+      reset_password:
+        invalid_code: "Invalid password recovery link." 
+        success: "Password successfully changed." 
+                         
+    comments:
+      create:
+        empty: "Comment cannot be empty."
+        success: "Comment successfully added."
+      update:
+        success: "Comment successfully edited."
+
+    invitations:
+      create:
+        email_in_use: "Email already in use."       
+        delivery_error: "An error occurred and the invitation email could be not sent. Please try again later." 
+        invalid_email: "Invalid email address."
+        success: "An invitation email was sent to %{email}."
+      destroy:
+        success: "Invitation successfully cancelled."
+
+    messages:
+      create:
+        success: "Message successfully sent."        
+      move:
+        moved_list: "Message(s) successfully moved."
+        moved_single: "Message successfully moved."
+
+    posts:
+      create:
+        empty: "Post cannot be empty."
+        success: "Post successfully added."
+      update:
+        success: "Post successfully edited."
+
+    reports:
+      create:
+        reason_required: "Reason is required."
+        notification_body: "Your report was successfully sent, a moderator will examine it as soon as possible."
+        notification_title: "Report Sent"
+        
+    rewards:
+      create:
+        insufficient_upload_credit: "Your upload credit is insufficient."
+        invalid_reward_amount: "Invalid amount."
+        success: "Reward successfully added."
+
+    sessions:
+      create:
+        account_disabled: "This account is disabled."
+        temporarily_blocked: "Login is temporarily blocked for your machine. Try to recover your password."
+
+    topics:
+      create:
+        success: "Topic successfully created."
+      destroy:
+        success: "topic successfully deleted"
+      update:
+        success: "Topic successfully edited."
+
+    torrents:
+      activate:
+        success: "torrent successfully activated"
+      bookmark:
+        bookmarked: "Torrent successfully bookmarked."
+        unbookmarked: "Torrent successfully unbookmarked."
+      create:
+        success: "Your personal announce url was added to the torrent, please re-download it."
+      destroy:
+        success: "torrent successfully deleted"    
+      inactivate:        
+        notification_body: "Your torrent will stay inactive until a moderator removes it."
+        notification_title: "Torrent Inactivated"
+        inactivated_report_tag: "inactivated"
+        success: "torrent successfully inactivated"
+      reseed_request:
+        insufficient_upload_credit: "Your upload credit is insufficient."
+        success: "Reseed requests successfully sent."
+      update:
+        success: "Torrent successfully edited."   
+
+    users:
+      destroy:
+        success: "user successfully deleted"       
+      reset_passkey:
+        success: "Passkey successfully reset."
+      show:
+        ratio_watch: "You are under ratio watch and have until %{until} to fix it."
+      update:
+        success: "Profile successfully edited." 
+
+    wish_bounties:
+      create:
+        insufficient_upload_credit: "Your upload credit is insufficient."
+        invalid_bounty_amount: "Invalid amount."
+        success: "Request bounty successfully added. You will be notified when the request is filled."
+      revoke:
+        success: "Request bounty successfully revoked."
+
+    wish_comments:
+      create:
+        empty: "Comment cannot be empty."
+        success: "Comment successfully added."
+      update:
+        success: "Comment successfully edited."
+
+    wishes:
+      approve:
+        success: "request filling successfully approved"
+      create:
+        success: "Request successfully created."
+      destroy:
+        success: "Request successfully removed."
+      fill:
+        info_hash_invalid: "Invalid torrent info hash."
+        not_torrent_uploader: "Only the torrent uploader can use it to fill a request."
+        report_tag: "pending"
+        success: "Request successfully filled. A message will be sent to you after a moderator examines it."
+        torrent_taken: "Torrent already used to fill another request."
+      reject:
+        success: "request filling successfully rejected"
+      update:
+        success: "Request successfully edited."
+
+        

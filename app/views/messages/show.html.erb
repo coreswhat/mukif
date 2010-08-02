@@ -1,0 +1,87 @@
+
+<% page_name 'Messenger' %>
+
+<div class="main">
+  
+  <h2>Messenger</h2>
+
+  <div class="messenger">
+    <% form_tag url(:messages, :move, :id => @message), :method => :put do %>
+      <table>
+        <tr>  
+          <td>
+            <% title = @message.folder != Message::SENT ? 'Message' : 'Sent Message' %>
+            <%= partial 'messages/menu', :locals => {:title => title } %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td width="1%" class="label">
+                  <%= @message.folder != Message::SENT ? 'From:' : 'To:' %>
+                </td>
+                <td>
+                  <ul>
+                    <% if @message.folder != Message::SENT %>
+                      <li><%= user_link @message.sender %></li>
+                      <% unless @message.sender.system? %>
+                        <li><%= link_to '[ reply ]', url(:messages, :new, :message_id => @message, :reply => '1') %></li>
+                      <% end %>
+                    <% else %>
+                      <li><%= user_link @message.receiver %></li>
+                    <% end %>
+                    <li><%= link_to '[ forward ]', url(:messages, :new, :message_id => @message, :forward => '1') %></li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td width="1%" class="label">
+                  Sent:
+                </td>
+                <td>
+                 <%= I18n.l @message.created_at %>
+                </td>
+              </tr>
+              <tr>
+                <td width="1%" class="label">
+                  Subject:
+                </td>
+                <td>
+                  <%= @message.subject %>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <div class="body">
+                    <%= parse_data_to_html @message.body %>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>  
+          <td>
+            <table>
+              <tr>
+                <td width="99%">
+                  &nbsp;
+                </td>
+                <td>
+                  <%= submit_tag 'Back', :name => 'cancel', :class => 'submit' %>
+                </td>
+                <td>
+                  <%= submit_tag 'Move to:', :class => 'submit' %>
+                </td>
+                <td>
+                  <%= partial 'messages/dest_folder_select' %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

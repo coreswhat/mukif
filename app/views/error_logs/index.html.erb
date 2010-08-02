@@ -1,0 +1,60 @@
+
+<% page_name 'Error Logs' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>error logs</h2>
+
+    <div class="links">
+      <%= link_to '[ clear ]', url(:error_logs, :destroy_all), :method => :delete, :class => 'admin' %>
+    </div>
+
+    <table class="browse wide">
+      <tr>
+        <td class="header_order_by">
+          created
+        </td>
+        <td class="header">
+          user
+        </td>
+        <td class="header">
+          message
+        </td>
+        <td class="header">
+          location
+        </td>
+        <td class="header">
+          &nbsp;
+        </td>
+      </tr>
+      <% unless @error_logs.blank? %>
+        <% @error_logs.each do |l| %>
+          <tr>
+            <td>
+              <%= I18n.l l.created_at, :format => :db %>
+            </td>            
+            <td>
+              <%= l.user ? user_link(l.user) : '-' %>
+            </td>
+            <td>
+              <%= parse_data_to_html l.message %>
+            </td>
+            <td>
+              <%= parse_data_to_html strip_tags(l.location) %>
+            </td>
+            <td class="no_wrap">
+              <%= link_to '[ delete ]', url(:error_logs, :destroy, :id => l), :method => :delete, :class => 'admin' %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="5">
+            no error logs found
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

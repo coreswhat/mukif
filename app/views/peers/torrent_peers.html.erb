@@ -1,0 +1,132 @@
+
+<% page_name 'Torrent Peers' %>
+
+<div class="main">
+  
+  <h2>torrent peers</h2>
+  
+  <div class="torrent_header">
+    <%= torrent_link @torrent %>
+  </div>
+
+  <% if !@peers.blank? && @peers.size > 15 %>
+    <%= will_paginate @peers %>
+  <% end %>
+
+  <table class="browse">
+    <tr>
+      <td class="header_order_by">
+        started
+      </td>
+      <td class="header">
+        last Action
+      </td>
+      <td class="header">
+        user
+      </td>
+      <td class="header">
+        up
+      </td>
+      <td class="header">
+        down
+      </td>
+      <td class="header">
+        %
+      </td>
+      <% if current_user.admin? %>
+        <td class="header">
+          ip
+        </td>
+        <td class="header">
+          port
+        </td>
+      <% end %>
+      <td class="header">
+        <%= image_tag 'connectable.png', :alt => 'connectable', :title => 'connectable' %>
+      </td>
+      <td class="header">
+        client
+      </td>
+    </tr>
+    <% unless @peers.blank? %>
+      <% @peers.each do |p| %>
+        <tr>
+          <td>
+            <%= I18n.l p.started_at, :format => :db %>
+          </td>
+          <td>
+            <%= textual_time_interval(p.last_action_at, 'ago') %>            
+          </td>
+          <td>
+            <%= user_link p.user, true %>
+          </td>
+          <td>
+            <%= textual_data_amount p.uploaded %>
+          </td>
+          <td>
+            <%= textual_data_amount p.downloaded %>
+          </td>
+          <td>
+            <%= highlight_true p.seeder?, (peer_completion p.completion_percentage) %>
+          </td>
+          <% if current_user.admin? %>
+            <td>
+              <%= p.ip %>
+            </td>
+            <td>
+              <%= p.port %>
+            </td>
+          <% end %>
+          <td>
+            <%= p.peer_conn.connectable.nil? ? 'nil' : highlight_true_false(p.peer_conn.connectable) %>
+          </td>
+          <td>
+            <%= "#{p.client_description} #{p.client_version}" %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="<%= current_user.admin? ? '10' : '8'%>">
+          no peers found.
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @peers %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

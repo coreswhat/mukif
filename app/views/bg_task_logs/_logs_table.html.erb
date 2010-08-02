@@ -1,0 +1,53 @@
+
+  <table class="browse">
+    <tr>
+      <td class="header_order_by">
+        created
+      </td>
+      <td class="header">
+        bg_task
+      </td>
+      <td class="header">
+        exec_begin
+      </td>
+      <td class="header">
+        exec_end
+      </td>
+      <td class="header">
+        next_exec_after
+      </td>
+      <td class="header">
+        status
+      </td>
+    </tr>
+    <% unless bg_task_logs.blank? %>
+      <% bg_task_logs.each do |l| %>
+        <tr>
+          <td>
+            <%= I18n.l l.created_at, :format => :db %>
+          </td>
+          <td>
+            <%= l.bg_task_name %>
+          </td>
+          <td>
+            <%= I18n.l l.exec_begin_at, :format => :db if l.exec_begin_at %>
+          </td>
+          <td>
+            <%= I18n.l l.exec_end_at, :format => :db if l.exec_end_at %>
+          </td>
+          <td>
+            <%= I18n.l l.next_exec_after, :format => :db if l.next_exec_after %>
+          </td>
+          <td>
+            <%= l.status %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="6">
+          no logs found
+        </td>
+      </tr>
+    <% end %>
+  </table>

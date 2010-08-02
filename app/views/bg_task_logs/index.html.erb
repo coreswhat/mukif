@@ -1,0 +1,15 @@
+
+<% page_name 'Task Logs' %>
+
+<div class="main">
+  
+  <h2>tasks logs</h2>
+
+  <div class="links">
+    <%= link_to '[ clear ]', 
+                url(:bg_task_logs, :destroy_all), 
+                :format => :js, :class => 'admin', :method => :delete, :confirm => 'Are You Sure?'%>
+  </div>
+
+  <%= partial 'bg_task_logs/logs_table', :locals => {:bg_task_logs => @bg_task_logs} %>
+</div>

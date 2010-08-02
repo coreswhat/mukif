@@ -1,0 +1,33 @@
+
+<% page_name 'Application Parameters' %>
+
+<div class="main">
+  
+  <h2>new app param</h2>
+  
+  <div class="fields_box" style="width:600px;">
+    <% form_for :app_param, url(:app_params, :create) do |f| %>
+      <table>
+        <tr>
+          <td class="label">
+            name:
+          </td>
+          <td>
+            <%= f.text_field :name, :size => 35 %>
+          </td>
+          <td class="label">
+            yaml:
+          </td>
+          <td>
+            <%= f.text_field :yaml, :size => 35 %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="4" class="center">
+            <%= f.submit 'confirm', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

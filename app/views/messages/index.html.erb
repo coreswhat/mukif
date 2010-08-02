@@ -1,0 +1,86 @@
+
+<% page_name 'Messenger' %>
+
+<% folder_descriptions = {Message::INBOX => 'Inbox',
+                          Message::ARCHIVE => 'Archive',
+                          Message::SENT => 'Sent',
+                          Message::TRASH => 'Trash'} %>
+
+<div class="main">
+    
+  <h2>Messenger</h2>
+  
+  <%= partial 'misc/flash' %>
+
+  <div class="messenger">
+    <% form_tag url(:messages, :move), :method => :put, :id => 'messages_form' do %>
+      <table>
+        <tr>
+          <td>
+            <%= partial 'messages/menu', :locals => { :title => folder_descriptions[session[:messenger_folder]] } %>
+          </td>
+        </tr>
+        <% unless @messages.blank? %>
+          <% @messages.each do |m| %>
+            <tr>
+              <td>
+                <table>
+                  <tr>
+                    <td width="1%">
+                      <%= check_box_tag 'selected_messages[]', :value => m.id, :id => "selected_messages_#{m.id}" %>
+                    </td>
+                    <td class="no_wrap" width="10%">
+                      <%= I18n.l m.created_at %>
+                    </td>
+                    <td width="5%">
+                      <%= session[:messenger_folder] != Message::SENT ? user_link(m.sender) : user_link(m.receiver) %>
+                    </td>
+                    <td>
+                      <%= link_to m.subject, url(:messages, :show, :id => m), :class => ('bold' if m.unread?) %>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          <% end %>
+          <% if @messages.total_pages > 1 %>
+            <tr>
+              <td class="center">
+                <%= will_paginate @messages, {:container => false} %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td class="center grey">
+              folder is empty
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td class="left" width="99%">
+                  <div id="messenger_script_links" class="hide">
+                    <ul class="menu">
+                      <li><a id="check_all">check all</a></li>
+                      <li>|</li>
+                      <li><a id="uncheck_all">uncheck all</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td>
+                  <%= submit_tag 'Move to:', :class => 'submit' %>
+                </td>
+                <td>
+                  <%= partial 'messages/dest_folder_select' %>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+
+This module is based on the xss_terminate plugin, it sanitizes
+all active_record string/text attributes before validation/saving
+using Rack::Utils.escape_html. Exceptions can be added with:
+
+  class Comment < ActiveRecord::Base
+    ar_sanitize :except => [ :body ]
+  end
+
+# references
+  + http://github.com/look/xss_terminate

@@ -1,0 +1,26 @@
+
+  <% # locals: rows, types (all types collection), description_links (boolean optional), align (optional) %>
+
+  <% params[:types] ||= [] %>
+  <% description_links = true if description_links.nil? %>
+  <% align ||= 'center' %>
+
+  <div class="types_grid <%= align %>">
+    <table class="<%= align %>">
+      <% lines = (types.size / rows.to_f).ceil %>
+      <% lines.times do %>
+        <tr>
+          <% rows.times do %>
+            <% break if types.empty? %>
+            <% t = types.shift %>
+            <td>
+              <%= check_box_tag 'types[]', :value => t.id, :id => "types_#{t.id}", :checked => params[:types].include?(t.id.to_s) %>
+            </td>
+            <td class="description">
+              <%= description_links ? link_to(t.description, url(:torrents, :index, :type_id => t)) : t.description %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>

@@ -1,0 +1,140 @@
+
+<% page_name 'User Activity' %>
+
+<div class="main">
+  
+  <h2>User Activity :: Seeding</h2>
+  
+  <div class="user_header">
+    <%= user_link @user %>
+  </div>
+
+  <% if !@peers.blank? && @peers.size > 15 %>
+    <%= will_paginate @peers %>
+  <% end %>
+
+  <table class="browse user_activity">
+    <tr>
+      <td class="header">
+        Torrent
+      </td>
+      <td class="header_order_by">
+        Started
+      </td>
+      <td class="header">
+        <%= image_tag 'connectable.png', :alt => 'Connectable', :title => 'Connectable' %>
+      </td>
+      <td class="header">
+        Up
+      </td>
+      <td class="header">
+        Down
+      </td>
+      <td class="header">
+        %
+      </td>
+      <% if @display_ip_port %>
+        <td class="header">
+          IP
+        </td>
+        <td class="header">
+          Port
+        </td>
+      <% end %>
+      <td class="header">
+        Client
+      </td>
+    </tr>
+    <% unless @peers.blank? %>
+      <% @peers.each do |p| %>
+        <tr>
+          <td>
+            <%= torrent_link p.torrent, :compact, 80 %>
+          </td>
+          <td class="no_wrap">
+            <%= textual_time_interval p.started_at, 'ago' %>
+          </td>
+          <td>
+            <span class="<%= p.peer_conn.connectable? ? 'connectable' : 'unconnectable' %>">
+              <%= p.connectable? ? 'yes' : 'no' %>
+            </span>
+          </td>
+          <td class="no_wrap">
+            <%= textual_data_amount p.uploaded %>
+          </td>
+          <td class="no_wrap">
+            <%= textual_data_amount p.downloaded %>
+          </td>
+          <td>
+            <%= peer_completion p.completion_percentage %>
+          </td>
+          <% if @display_ip_port %>
+            <td>
+              <%= p.ip %>
+            </td>
+            <td>
+              <%= p.port %>
+            </td>
+          <% end %>
+          <td class="no_wrap">
+            <%= "#{p.client_description} #{p.client_version}" %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan=" <%= @display_ip_port ? '9' : '7'%>">
+          No peers found.
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @peers %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+

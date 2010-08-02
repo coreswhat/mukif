@@ -1,0 +1,21 @@
+
+Customized will_paginate plugin to work with the Padrino framework.
+
+- also some features where added:
+
+  + support for rendering the last page
+    Product.paginate :page => :last, :per_page => 50
+    Product.paginate :page => 'last', :per_page => 50    
+      
+  + no empty page unless all pages are empty, specially useful if you have more than one
+    page and the last element of the last page is removed.
+
+    Product.paginate :page => 10, :per_page => 50 # returns page 4 if page 4 is the last
+  
+  + no error if rubish page (e.g. '&page=abc'), rubish is replaced by 1 ('&page=last' is the
+    exception).
+  
+  + another link renderer with format '1 - 10 | 11 - 20 | 21 - 30'
+  
+  + support for html anchor in the pagination links  
+    @comments.html_anchor = 'comments' (generates links ending with '#comments')

@@ -1,0 +1,166 @@
+
+<% page_name 'Announce Logs' %>
+
+<div class="main">
+  
+  <h2>announce logs</h2>
+  
+  <div class="links">
+    <%= link_to '[ clear ]', url(:announce_logs, :destroy_all), :method => :delete, :class => 'admin', :confirm => 'Are you sure?' %>
+  </div>
+  
+  <div class="fields_box margin_bottom" style="width:750px;">
+    <% form_tag url(:announce_logs, :index), :method => :get do %>
+      <table>
+        <tr>
+          <td class="label">
+            user_id:
+          </td>
+          <td>
+            <%= text_field_tag :user_id, :value => params[:user_id], :size => 10 %>
+          </td>
+          <td class="label">
+            torrent_id:
+          </td>
+          <td>
+            <%= text_field_tag :torrent_id,  :value => params[:torrent_id], :size => 10 %>
+          </td>
+          <td class="label">
+            ip:
+          </td>
+          <td>
+            <%= text_field_tag :ip,  :value => params[:ip], :size => 15 %>
+          </td>
+          <td class="label">
+            port:
+          </td>
+          <td>
+            <%= text_field_tag :port,  :value => params[:port], :size => 10 %>
+          </td>
+          <td>
+            <%= submit_tag 'search', :name => nil, :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+  
+  <% if !@announce_logs.blank? && @announce_logs.size > 15 %>
+    <%= will_paginate @announce_logs %>
+  <% end %>
+  
+  <table class="browse">
+    <tr>
+      <td class="<%= table_header_css_class 'created_at' %>">
+        <%= table_header_link 'created', 'created_at', @announce_logs %>
+      </td>
+      <td class="<%= table_header_css_class 'user_id' %>">
+        <%= table_header_link 'user', 'user_id', @announce_logs %>
+      </td>
+      <td class="<%= table_header_css_class 'torrent_id' %>">
+        <%= table_header_link 'tor', 'torrent_id', @announce_logs %>
+      </td>
+      <td class="header">
+        free
+      </td>
+      <td class="<%= table_header_css_class 'event' %>">
+        <%= table_header_link 'event', 'event', @announce_logs %>
+      </td>
+      <td class="header">
+        seeder
+      </td>
+      <td class="<%= table_header_css_class 'up_offset' %>">
+        <%= table_header_link 'up', 'up_offset', @announce_logs %>
+      </td>
+      <td class="<%= table_header_css_class 'down_offset' %>">
+        <%= table_header_link 'down', 'down_offset', @announce_logs %>
+      </td>
+      <td class="<%= table_header_css_class 'time_interval' %>">
+        <%= table_header_link 'interval', 'time_interval', @announce_logs %>
+      </td>
+      <td class="header">
+        ip
+      </td>
+      <td class="header">
+        port
+      </td>
+      <td class="header">
+        client
+      </td>    
+    </tr>
+    <% unless @announce_logs.blank? %>
+      <% @announce_logs.each do |l| %>
+        <tr>
+          <td>
+            <%= I18n.l l.created_at, :format => :db %>
+          </td>
+          <td>
+            <%= user_link l.user, true %>
+          </td>
+          <td>
+            <%= link_to "[ #{l.torrent_id} ]", url(:torrents, :show, :id => l.torrent_id) %>
+          </td>
+          <td>
+            <%= l.free_torrent? %>
+          </td>          
+          <td>
+            <%= l.event.blank? ? '-' : l.event %>
+          </td>
+          <td>
+            <%= l.seeder ? 'yes' : 'no' %>
+          </td>
+          <td>
+            <%= textual_data_amount l.up_offset %>
+          </td>
+          <td>
+            <%= textual_data_amount l.down_offset %>
+          </td>
+          <td>
+            <%= l.time_interval ? l.time_interval : '-' %>
+          </td>
+          <td>
+            <%= l.ip %>
+          </td>
+          <td>
+            <%= l.port %>
+          </td>
+          <td>
+            <%= "#{l.client_description}-#{l.client_version}" %>
+          </td>
+        </tr>    
+      <% end %>  
+    <% else %>
+      <tr>
+        <td colspan="11">
+          no announce logs found
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @announce_logs %>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

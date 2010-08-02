@@ -1,0 +1,16 @@
+
+  <div class="menu">
+    <ul>
+      <li><%= link_to 'Home', settings.uri_root %></li>
+      <li><%= link_to 'Torrents', url(:torrents, :index) %></li>
+      <li><%= link_to 'Upload', url(:torrents, :new) %></li>
+      <li><%= link_to 'Requests', url(:wishes, :index) %></li>
+      <li><%= link_to 'Forums', url(:forums, :index) %></li>
+      <li><%= link_to 'Users', url(:users, :index) %></li>
+      <li><%= link_to 'Logs', url(:logs, :index) %></li>
+      <li><%= link_to 'Stats', url(:stats, :index) %></li>
+      <li><%= link_to 'Help', url(:contents, :help) %></li>
+      <li><%= link_to 'Staff', url(:contents, :staff) %></li>
+      <li><%= link_to 'Logout', url(:sessions, :destroy), :method => :delete, :confirm => 'Are you sure?' %></li>
+    </ul>
+  </div>

@@ -1,0 +1,63 @@
+
+<% page_name 'My Requests' %>
+
+<div class="main">
+  
+  <h2>My Requests</h2>
+
+  <% if current_user.has_ticket?(:wisher) %>
+    <div class="links">
+      <%= link_to '[ new request ]', url(:wishes, :new) %>
+    </div>
+  <% end %>
+
+  <table class="browse wide">
+    <tr>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td width="99%" class="<%= table_header_css_class 'name'  %>">
+        <%= table_header_link 'Name', 'name', @wishes %>
+      </td>
+      <td class="<%= table_header_css_class 'created_at' %>">
+        <%= table_header_link 'Added', 'created_at', @wishes %>
+      </td>
+      <td class="header">
+        Status
+      </td>
+      <td class="<%= table_header_css_class 'total_bounty' %>">
+        <%= table_header_link 'Bounty', 'total_bounty', @wishes %>
+      </td>
+    </tr>
+    <% unless @wishes.blank? %>
+      <% @wishes.each do |w| %>
+        <tr>
+          <td class="no_padding">
+            <%= type_label w.type, params, true %>
+          </td>
+          <td class="left no_right_border">
+            <%= wish_link w, :browse %>
+            <%= wish_additional_info w %>
+          </td>
+          <td class="no_wrap">
+            <%= textual_time_interval w.created_at, 'ago' %>
+          </td>
+          <td class="no_wrap">
+            <%= w.status %>
+          </td>
+          <td class="no_wrap">
+            <%= textual_data_amount w.total_bounty %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="8">
+          No requests found.
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @wishes %>
+</div>

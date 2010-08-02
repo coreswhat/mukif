@@ -1,0 +1,51 @@
+
+<% page_name 'Forums' %>
+
+<div class="main">
+  <div class="forums" style="width:750px;">
+    
+    <div class="page_header">
+      <%= link_to 'Forums', url(:forums, :index) %>
+    </div>
+
+    <h3>New Topic</h3>
+    
+    <%= partial 'misc/flash' %>    
+    
+    <% form_for :topic, url(:topics, :create, :forum_id => @forum) do |f| %>
+      <table class="details">
+        <tr>
+          <td class="label">
+            Title
+          </td>
+          <td>
+            <%= f.text_field :title, :size => 85, :maxlength => 100 %>
+            <%= field_error @topic.errors[:title] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Contents
+          </td>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'body', :align => 'left' }) { f.text_area :body, :rows => 8, :cols => 70 } %>
+            <%= field_error @topic.errors[:body] %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'Create', :class => 'submit' %></li>
+              <li><%= submit_tag 'Cancel', :name => 'cancel', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

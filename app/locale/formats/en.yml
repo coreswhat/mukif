@@ -1,0 +1,64 @@
+# * WARNING: changing this file may break the tests *
+
+en:
+  date:
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    order: [:year, :month, :day]
+        
+  time:
+    formats:
+      # Dec 01, 2000 13:34
+      default: "%b %d, %Y %H:%M"
+      # Dec 01, 2000
+      date: "%b %d, %Y"
+      # 2000-12-01
+      short: "%Y-%m-%d"
+      # Dec 01, 2000 13:34:30
+      long: "%b %d, %Y %H:%M:%S"
+      # 2000-12-01 13:34:30
+      db: "%Y-%m-%d %H:%M:%S"
+    am: "am"
+    pm: "pm"
+
+  number:
+    format:
+      # 32,000.50
+      separator: "."
+      delimiter: ","       
+    ratio:
+      format:
+        precision: 3
+    peer_completion:
+      format:
+        precision: 0
+    data_amount:
+      format:
+        precision: 2
+
+  datetime:
+    textual:
+      seconds:
+        one: 1 second
+        other: "%{count} seconds"
+      minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      hours:
+        one: 1 hour
+        other: "%{count} hours"
+      days:
+        one: 1 day
+        other: "%{count} days"
+      months:
+        one: 1 month
+        other: "%{count} months"
+      years:
+        one: 1 year
+        other: "%{count} years"
+
+
+
+        

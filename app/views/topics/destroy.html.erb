@@ -1,0 +1,52 @@
+
+<% page_name 'Forums' %>
+
+<div class="main">
+  <div class="forums">
+    
+    <div class="page_header">
+      <%= link_to 'Forums', url(:forums, :index) %>
+    </div>
+
+    <div class="forum_name">
+      <%= link_to @topic.forum.name, url(:forums, :show, :id => @topic.forum) %>
+    </div>
+
+    <h3>topic deletion</h3>
+    
+    <% form_tag url(:topics, :destroy, :forum_id => @topic.forum, :id => @topic), :method => :delete do %>
+      <table class="details">
+        <tr>
+          <td class="label">
+            title
+          </td>
+          <td>
+            <%= @topic.title %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            body
+          </td>
+          <td>
+            <div class="user_content">
+              <%= parse_data_to_html @topic.body %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'delete', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

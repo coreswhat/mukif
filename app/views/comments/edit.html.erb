@@ -1,0 +1,34 @@
+
+<% page_name 'Comment Edition' %>
+
+<div class="main">  
+  
+  <h2>Comment Edition</h2>
+
+  <div class="torrent_header">
+    <%= torrent_link @comment.torrent %>
+  </div>
+
+  <%= partial 'misc/flash' %>
+
+  <div class="fields_box" style="width:600px;">
+    <% form_for :comment, url(:comments, :update, :torrent_id => @comment.torrent, :id => @comment, :page => params[:page]), :method => :put do |f| %>
+      <table>
+        <tr>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'body', :align => 'center' }) { f.text_area :body, :rows => 8, :cols => 70 } %>
+            <%= field_error @comment.errors[:body] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'Edit', :class => 'submit' %></li>
+              <li><%= submit_tag 'Cancel', :name => 'cancel', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

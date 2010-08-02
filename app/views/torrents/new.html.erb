@@ -1,0 +1,111 @@
+
+<% page_name 'Upload' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>Upload</h2>
+
+    <% if settings.c[:torrents][:upload_enabled] || current_user.admin? %>
+      <div class="center grey bold">
+        The torrent doesn't need to have a tracker announce URL. If it already contains one from another tracker, it will be replaced.
+      </div>
+    <% else %>
+      <div class="center grey bold">
+        Uploading new torrents is current unavailable.
+      </div>
+    <% end %>
+
+    <br/>
+      
+    <% form_for :torrent, url(:torrents, :create), :multipart => true do |f| %>
+      <table class="details torrent_details">
+        <tr>
+          <td class="label">
+            Type
+          </td>
+          <td>
+            <%= f.select :type_id, :collection => @types, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Torrent file
+          </td>
+          <td>
+            <%= file_field_tag :torrent_file, {:size => 51} %>
+            <%= field_error @torrent.errors[:torrent_file] || @torrent.errors[:info_hash] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Name
+          </td>
+          <td>
+            <%= f.text_field :name, :size => 62, :maxlength => 100 %>
+            <%= field_error @torrent.errors[:name] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Format
+          </td>
+          <td>
+            <%= f.select :format_id, :collection => @formats, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Source
+          </td>
+          <td>
+            <%= f.select :source_id, :collection => @sources, :fields => [:description, :id], :include_blank => '' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Year
+          </td>
+          <td>
+            <%= f.text_field :year, :size => 6, :maxlength => 4 %>
+            <%= field_error @torrent.errors[:year] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= f.select :country_id, :collection => @countries, :fields => [:description, :id], :include_blank => '' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Anonymous
+          </td>
+          <td>
+            <%= check_box_tag :anonymous, :value => '1' %>
+          </td>
+        </tr>         
+        <tr>
+          <td class="label">
+            Description
+          </td>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'torrent_description' }) { f.text_area :description, :rows => 8, :cols => 80 } %>
+          </td>
+        </tr>        
+        <tr>
+          <td colspan="2" class="center">
+            <%= submit_tag 'Upload', :class => 'submit', :disabled => !settings.c[:torrents][:upload_enabled] && !current_user.admin? %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

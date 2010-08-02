@@ -1,0 +1,4 @@
+
+default: --tags ~@wip --strict features
+
+html_report: --tags ~@wip --strict --format html --out=features_report.html features

@@ -1,0 +1,62 @@
+
+  <table class="post" id="post_<%= post.id %>">
+    <tr>
+      <td colspan="2" class="head">
+        <div class="float_left">
+          <ul class="compact">
+            <li><%= post.post_number %></li>
+            <li>|</li>
+            <li>              
+              posted by
+              <%= post.user ? user_link(post.user) : 'unknown' %>
+              -
+              <%= textual_time_interval post.created_at, 'ago' %>
+            </li>
+            <% if post.edited_at %>
+              <li>
+                <span class="edited_by">
+                  <%= "(edited by  #{post.edited_by} #{textual_time_interval post.edited_at, 'ago'})" %>
+                </span>
+              </li>
+            <% end %>            
+          </ul>
+        </div>
+
+        <div class="float_right">
+          <ul class="menu">
+            <% if current_user != post.user %>
+              <li><%= link_to 'report', url(:reports, :new, :type => 'post', :id => post) %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if post.editable_by? current_user %>
+              <li><%= link_to 'edit', url(:posts, :edit, :forum_id => topic.forum, :topic_id => topic, :id => post, :page => current_page) %></li>
+              <li>|</li>
+            <% end %>
+            
+            <% if !topic.posts_locked? || current_user.admin_mod? %>
+              <li>
+                <%= link_to 'quote', url(:posts, :quote, :id => post, :format => :js), :class => 'quote_link hide', :remote => true %>
+                <span class="quote_link_no_script grey">quote</span>  
+              </li>
+            <% else %>
+              <li>
+                <span class="grey">quote</span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="avatar">
+        <%= avatar_image post.user %>
+      </td>
+      <td>
+        <div class="user_content" id="content<%= post.id %>">
+          <%= parse_data_to_html post.body %>
+        </div>
+      </td>
+    </tr>
+  </table>
+  

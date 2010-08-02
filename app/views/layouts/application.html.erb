@@ -1,0 +1,36 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+  
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>
+      <%= yield_content :page_name %>
+    </title>
+    
+    <%= javascript_include_tag 'jquery', 'jquery-ujs', 'application', 'editor' %>
+    
+    <%= stylesheet_link_tag current_user.style.stylesheet %>
+
+  </head>
+  
+  <body>
+    <div id="spinner" class="hide"></div>
+    
+    <%= partial 'misc/header' %>
+      
+    <div id="application">     
+  
+      <%= partial 'misc/menu' %>
+  
+      <%= partial 'misc/adm_menu' if current_user.admin? && session[:adm_menu] %>
+       
+      <%= yield %>
+        
+    </div>
+    
+    <%= partial 'misc/footer' %>
+  </body>
+</html>

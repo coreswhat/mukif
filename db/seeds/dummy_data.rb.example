@@ -1,0 +1,66 @@
+
+# dummy users
+    
+  def create_dummy_user(username, role_name)
+    country = Country.find(rand(150) + 1)
+    style = Style.find :first
+  
+    uploaded = rand(1.gigabyte)
+    downloaded = rand(1.gigabyte)
+  
+    u = User.new(:username => username,
+                 :password => 'rrrrr',
+                 :password_confirmation => 'rrrrr',
+                 :last_login_at => Time.now,
+                 :last_request_at => Time.now,
+                 :style_id => style.id,
+                 :country_id => country.id,
+                 :email => "#{username}@mail.com",
+                 :uploaded => uploaded,
+                 :downloaded => downloaded,
+                 :ratio => User.calculate_ratio(uploaded, downloaded) )
+    u.role = Role.find_by_name(role_name) # attribute role_id is protected and must be assigned separately
+    u.save!
+  end
+
+  create_dummy_user 'admin', Role::ADMINISTRATOR
+  create_dummy_user 'mod', Role::MODERATOR
+  create_dummy_user 'power', 'power_user'
+  create_dummy_user 'uploader', 'uploader'
+  create_dummy_user 'vip', 'vip'
+  create_dummy_user 'bill', Role::USER
+  create_dummy_user 'jane', Role::USER
+  create_dummy_user 'renee', Role::USER
+  create_dummy_user 'joe', Role::USER
+  create_dummy_user 'peter', Role::USER
+  create_dummy_user 'jean', Role::USER
+  create_dummy_user 'kramer', Role::USER
+  create_dummy_user 'hala', Role::USER
+  create_dummy_user 'barak', Role::USER
+  create_dummy_user 'gordon', Role::USER
+  create_dummy_user 'david', Role::USER
+  create_dummy_user 'mirela', Role::USER
+  create_dummy_user 'pris', Role::USER
+  create_dummy_user 'leon', Role::USER
+  create_dummy_user 'rachel', Role::USER
+  create_dummy_user 'tyrell', Role::USER
+  create_dummy_user 'laura', Role::USER
+  create_dummy_user 'linda', Role::USER
+  create_dummy_user 'james', Role::USER
+  create_dummy_user 'cherry', Role::USER
+  create_dummy_user 'quincy', Role::USER
+  create_dummy_user 'johnny', Role::USER
+  create_dummy_user 'jude', Role::USER
+  create_dummy_user 'ramona', Role::USER
+  create_dummy_user 'touta', Role::USER
+  create_dummy_user 'kyoko', Role::USER
+  create_dummy_user 'kenta', Role::USER
+  create_dummy_user 'kanoko', Role::USER
+  create_dummy_user 'kenny', Role::USER
+  create_dummy_user 'roger', Role::USER
+  create_dummy_user 'rafael', Role::USER
+  create_dummy_user 'tsonga', Role::USER
+  create_dummy_user 'maria', Role::USER
+  create_dummy_user 'francis', Role::USER
+  create_dummy_user 'woody', Role::USER
+  create_dummy_user 'steven', Role::USER

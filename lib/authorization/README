@@ -1,0 +1,12 @@
+
+Simple authorization module.
+
+# dir structure:
+
+  - app_root  
+    - lib  
+      - authorization            
+        + role_model.rb      + module to be included in the role model
+        + user_model.rb      + module to be included in the user model
+        + helpers.rb         + app helpers module
+        + authorization.rb   + main module class

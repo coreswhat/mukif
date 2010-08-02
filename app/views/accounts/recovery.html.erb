@@ -1,0 +1,36 @@
+
+<% page_name 'Password Recovery' %>
+
+<br/>
+<br/>
+
+<h2>Password Recovery</h2>
+
+<%= partial 'misc/flash' %>
+
+<div class="fields_box" style="width:500px;">
+  <% form_tag url(:accounts, :recovery) do %>
+    <br/>
+    <table>
+      <tr>
+        <td class="label">
+          Email:
+        </td>
+        <td>
+          <%= text_field_tag :email, :value => params[:email], :size => 60, :maxlength => 100 %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="center">
+          <%= submit_tag 'Confirm', :class => 'submit' %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+<br/>
+
+<div class="links bold">
+  <%= link_to '[ login ]', url(:sessions, :new) %>
+</div>

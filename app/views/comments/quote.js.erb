@@ -1,0 +1,8 @@
+
+  <% username = @comment.user ? @comment.user.username : 'unknown' %>
+
+  <% s = "'[quote=#{username}]#{@comment.body}[/quote]'" %>
+
+  insert_value(find_element_by_id('comment_body'), <%= s %>);
+
+

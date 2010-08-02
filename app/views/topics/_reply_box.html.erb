@@ -1,0 +1,18 @@
+
+  <div class="forum_reply_box" style="width:550px;">
+    <% form_tag url(:posts, :create, :forum_id => topic.forum, :topic_id => topic, :page => current_page) do %>
+      <table>
+        <tr>
+        <tr>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'post_body' }) { text_area_tag :post_body, :id => 'post_body', :rows => 6, :cols => 65 } %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= submit_tag 'Submit', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>

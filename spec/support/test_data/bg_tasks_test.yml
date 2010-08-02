@@ -1,0 +1,11 @@
+
+# task name
+test_bg_task:
+  # task properties
+  interval_minutes: 4
+  params:
+    # task params
+    test_param_integer: 3
+    test_param_array:
+      - 5
+      - 7

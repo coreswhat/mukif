@@ -1,0 +1,8 @@
+
+  <% username = @wish_comment.user ? @wish_comment.user.username : 'unknown' %>
+
+  <% s = "'[quote=#{username}]#{@wish_comment.body}[/quote]'" %>
+
+  insert_value(find_element_by_id('wish_comment_body'), <%= s %>);
+
+

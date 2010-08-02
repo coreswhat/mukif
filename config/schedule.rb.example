@@ -1,0 +1,29 @@
+
+# run
+# $ whenever --set environment=development --update-crontab app_name   
+  
+# cron schedule
+
+  case @environment
+    
+    when 'production'
+      
+      env 'GEM_PATH', ENV['GEM_PATH']
+      
+      set :cron_log, '/var/vhosts/mukif/shared/log/cron.log'
+      
+      every 1.hour, :at => 5 do
+        command 'cd /var/vhosts/mukif/current; bundle exec padrino rake bg_tasks:exec -e production'
+      end
+      
+    when 'development'
+            
+      env 'GEM_PATH', ENV['GEM_PATH']
+            
+      set :cron_log, '/home/user/dev/apps/mukif/log/cron.log'
+        
+      every 30.minutes do      
+        command 'cd /home/user/dev/apps/mukif; bundle exec padrino rake bg_tasks:exec -e development'
+      end
+            
+  end

@@ -1,0 +1,260 @@
+
+<% page_name 'User Details' %>
+
+<div class="main">
+  <div class="inner" style="width:880px;">
+    
+    <h2>User Details</h2>
+
+    <%= content_tag(:div, flash[:ratio_watch], :class => 'alert') if flash[:ratio_watch] %>
+
+    <%= partial 'misc/flash' %>
+    
+    <table class="details user_details">
+      <tr>  
+        <td class="label">
+          Username
+        </td>
+        <td>  
+          <div class="float_left">
+            <%= user_link @user %>
+          </div>
+          <div class="float_right">
+            <ul class="menu">
+              <% if @user.editable_by? current_user %>
+                <li><%= link_to 'edit profile', url(:users, :edit, :id => @user) %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if @user != current_user && @user.editable_by?(current_user) %>
+                <li><%= link_to 'delete', url(:users, :destroy, :id => @user), :class => 'admin' %></li>
+                <li>|</li>
+              <% end %>
+              
+              <% if current_user.staff? %>
+                <li><%= link_to 'staff info', url(:users, :edit_staff_info, :id => @user), :class => 'staff' %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if @user == current_user || current_user.admin?%>
+                <%= link_to 'reset passkey', url(:users, :reset_passkey, :id => @user) %>
+                <li>|</li>
+              <% end %>
+
+              <% if @user != current_user && @user.active? %>                
+                <li><%= link_to 'report', url(:reports, :new, :type => 'user', :id => @user) %></li>
+                <li>|</li>
+              <% end %>
+              
+              <% if @user.active? %>
+                <li><%= link_to 'message', url(:messages, :new, :to => @user.username) %></li>
+              <% else %>
+                <li><span class="grey">message</span></li>
+              <% end %>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <% if current_user.admin? %>
+        <tr>  
+          <td class="label">
+            active
+          </td>
+          <td>
+            <%= highlight_false @user.active %>
+          </td>
+        </tr>
+        <% if @user.ratio_watch_until %>
+          <tr>
+            <td class="label">
+              ratio_watch_until
+            </td>
+            <td>
+              <%= l(@user.ratio_watch_until, :format => :db) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+      <% if current_user.staff? && !@user.staff_info.blank? %>
+        <tr>
+          <td class="label">
+            staff_info
+          </td>
+          <td>
+            <%= parse_data_to_html @user.staff_info %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Role
+        </td>
+        <td>
+          <%= @user.role.description %> 
+        </td>
+      </tr>
+      <% if !@user.extra_tickets.blank? && (@user == current_user || current_user.admin?) %>
+        <tr>
+          <td class="label">
+            Tickets
+          </td>
+          <td>
+            <%= @user.extra_tickets %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.country.blank? %>
+        <tr>  
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= country_image @user.country %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Joined
+        </td>
+        <td>
+          <%= I18n.l @user.created_at, :format => :date %>
+        </td>
+      </tr>
+      <% if @user.last_request_at? && (@user.display_last_request_at? || @user == current_user || current_user.admin?) %>
+        <tr>  
+          <td class="label">
+            Last seen
+          </td>
+          <td>
+            <%= textual_time_interval @user.last_request_at, 'ago' %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @user == current_user || current_user.admin? %>
+        <tr>  
+          <td class="label">
+            Passkey
+          </td>
+          <td>
+            <%= current_user.admin? ? @user.passkey : "#{@user.passkey[0, 4]} ... #{@user.passkey[@user.passkey.size - 4, 4]}" %>
+          </td>
+        </tr>
+        <tr>  
+          <td class="label">
+            Email
+          </td>
+          <td>
+            <%= @user.email %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.gender.blank? %>
+        <tr>  
+          <td class="label">
+            Gender
+          </td>
+          <td>
+            <%= @user.gender.description %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.inviter.blank? %>
+        <tr>
+          <td class="label">
+            Invited by
+          </td>
+          <td>
+            <%= user_link @user.inviter %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.avatar.blank? %>
+        <tr>  
+          <td class="label">
+            Avatar
+          </td>
+          <td>
+            <%= avatar_image @user %>
+          </td>
+        </tr>
+      <% end %>
+      <% unless @user.info.blank? %>
+        <tr>  
+          <td class="label">
+            Info
+          </td>
+          <td>
+            <div class="user_info">
+              <%= parse_data_to_html @user.info %>
+            </div>
+          </td>
+        </tr>
+      <% end %>
+      <% if @user.display_uploads? || @user == current_user || current_user.admin? %>
+        <tr>
+          <td class="label">
+            Uploads
+          </td>
+          <td>
+            <%= link_to '[ browse ]', url(:torrents, :user_torrents, :user_id => @user) %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @user.display_snatches? || @user == current_user || current_user.admin? %>
+        <tr>
+          <td class="label">
+            Snatches
+          </td>
+          <td>
+            <%= link_to '[ browse ]', url(:snatches, :user_snatches, :user_id => @user) %>                       
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Uploaded
+        </td>
+        <td>
+          <%= textual_data_amount @user.uploaded %>
+        </td>
+      </tr>
+      <tr>  
+        <td class="label">
+          Downloaded
+        </td>
+        <td>
+          <%= textual_data_amount @user.downloaded %>
+        </td>
+      </tr>
+      <tr>  
+        <td class="label">
+          Ratio
+        </td>
+        <td>
+          <%= @user.ratio %>
+        </td>
+      </tr>
+      <% if @user.display_seeding? || @user == current_user || current_user.admin? %>
+        <tr>  
+          <td class="label">
+            Seeding
+          </td>
+          <td>
+            <%= link_to '[ browse ]', url(:peers, :user_seeding_peers, :user_id => @user) %>
+          </td>
+        </tr>
+      <% end %>  
+      <% if @user.display_leeching? || @user == current_user || current_user.admin? %>
+        <tr>  
+          <td class="label">
+            Leeching
+          </td>
+          <td>
+            <%= link_to '[ browse ]', url(:peers, :user_leeching_peers, :user_id => @user) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

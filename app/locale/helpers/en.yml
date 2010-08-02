@@ -1,0 +1,27 @@
+# * WARNING: changing this file may break the tests *
+
+en:
+  h:
+    accounts_helper:
+      check_signup_not_blocked:
+        blocked: "Signup is blocked for your IP address."
+      check_signup_open:
+        closed: "Signup is currently closed."               
+    app_helper:
+      user_link:
+        inactive: "Inactive"
+    sessions_helper:
+      flash_failed_login:
+        blocked: "Login will remain blocked for %{hours} hours. Try to recover your password."
+        invalid_login: "Invalid login data. Remaining attempts: %{remaining}"        
+    torrents_helper:
+      bookmark_image:
+        bookmark: "Bookmark"
+        unbookmark: "Unbookmark"
+      bookmark_text:
+        bookmark: "bookmark"
+        unbookmark: "unbookmark"        
+      torrent_download_link:
+        title: "Download"
+      torrent_additional_info:
+        free_label: free

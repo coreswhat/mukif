@@ -1,0 +1,62 @@
+
+<% page_name 'Styles' %>
+
+<div class="main">
+  
+  <h2>styles</h2>
+
+  <div class="links">
+    <%= link_to '[ new ]', url(:styles, :new), :class => 'admin' %>
+  </div>
+
+  <table class="browse">
+    <tr>
+      <td class="header">
+        &nbsp; id &nbsp;
+      </td>
+      <td class="header_order_by">
+        description
+      </td>
+      <td class="header">
+        stylesheet
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+    </tr>
+    <% unless @styles.blank? %>
+      <% @styles.each do |s| %>
+        <tr>
+          <td>
+            <%= s.id %>
+          </td>
+          <td>
+            <%= s.description %>
+          </td>
+          <td>
+            <%= s.stylesheet %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ edit ]', url(:styles, :edit, :id => s), :class => 'admin' %>
+          </td>
+          <td>
+            <% unless s.default? %>
+              <%= link_to '[ delete ]', url(:styles, :destroy, :id => s), :method => :delete, :class => 'admin', :confirm => 'Are you sure?' %>
+            <% else %>
+              <span class="grey">[ delete ]</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="5">
+          no styles found
+        </td> 
+      </tr>
+    <% end %>
+  </table>
+</div>

@@ -1,0 +1,125 @@
+
+<% page_name 'User Uploads' %>
+
+<div class="main">
+  
+  <h2>User Uploads</h2>
+  
+  <div class="user_header">
+    <%= user_link @user %>
+  </div>
+
+  <% if !@torrents.blank? && @torrents.size > 15 %>
+    <%= will_paginate @torrents %>
+  <% end %>
+
+  <table class="browse user_history">
+    <tr>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header" width="99%" colspan="2">
+        Name
+      </td>
+      <td class="header_order_by no_wrap">
+        Added
+      </td>
+      <td class="header">
+        <%= image_tag('comments.png', :alt => 'Commented', :title => 'Commented') %>
+      </td>
+      <td class="header">
+        <%= image_tag('snatches.gif', :alt => 'Snatched', :title => 'Snatched') %>
+      </td>
+      <td class="header">
+        <%= image_tag('seeders.png', :alt => 'Seeders', :title => 'Seeders') %>
+      </td>
+      <td class="header">
+        <%= image_tag('leechers.png', :alt => 'Leechers', :title => 'Leechers') %>
+      </td>
+    </tr>
+    <% unless @torrents.blank? %>
+      <% @torrents.each do |t| %>
+        <tr>
+          <td class="no_padding">
+            <%= type_label t.type %>
+          </td>
+          <td class="left no_right_border">
+            <%= torrent_link t, :browse %>
+            <%= torrent_additional_info t %>
+          </td>          
+          <td class="torrent_download_bookmark">
+            <div class="float_right">
+              <ul class="compact">
+                <li><%= torrent_download_link t %></li>
+              </ul>
+            </div>
+          </td>
+          <td class="no_wrap">
+            <%= textual_time_interval t.created_at, 'ago' %>
+          </td>
+          <td>
+            <%= t.comments_count %>
+          </td>
+          <td>
+            <%= t.snatches_count %>
+          </td>
+          <td class="<%= 'torrent_no_seeders' if t.seeders_count == 0 %>">
+            <%= t.seeders_count %>
+          </td>
+          <td>
+            <%= t.leechers_count %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7">
+          No torrents found.
+        </td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= will_paginate @torrents %>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  

@@ -1,0 +1,139 @@
+
+<% page_name 'New User' %>
+
+<div class="main">
+  <div class="inner" style="width:850px;">
+    
+    <h2>new user</h2>
+
+    <% form_for :user, url(:users, :create) do |f| %>
+      <table class="details">
+        <tr>
+          <td class="label">
+            username
+          </td>
+          <td>
+            <%= f.text_field :username, :size => 30, :maxlength => 20 %>
+            <%= field_error @user.errors[:username] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            active
+          </td>
+          <td>
+            <%= f.check_box :active %>
+          </td>
+        </tr>
+        <tr>
+            <td class="label">
+              extra_tickets
+            </td>
+            <td>
+              <%= f.text_field :extra_tickets, :size => 30 %>
+            </td>
+          </tr>
+        <tr>
+          <td class="label">
+            staff_info
+          </td>
+          <td>
+            <%= f.text_area :staff_info, :cols => 60, :rows => 2 %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            password
+          </td>
+          <td>
+            <%= f.password_field :password, :size => 30, :maxlength => 40 %>
+            <%= field_error @user.errors[:password] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            confirm_password
+          </td>
+          <td>
+            <%= f.password_field :password_confirmation, :size => 30, :maxlength => 40 %>
+            <%= field_error @user.errors[:password_confirmation] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            email
+          </td>
+          <td>
+            <%= f.text_field :email, :size => 40, :maxlength => 100 %>
+            <%= field_error @user.errors[:email] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            country
+          </td>
+          <td>
+            <%= f.select :country_id, :collection => @countries, :fields => [:description, :id], :include_blank => '' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            gender
+          </td>
+          <td>
+            <%= f.select :gender_id, :collection => @genders, :fields => [:description, :id], :include_blank => '' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            style
+          </td>
+          <td>
+            <%= f.select :style_id, :collection => @styles, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            avatar
+          </td>
+          <td>
+            <%= f.text_field :avatar, :size => 60 %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            info
+          </td>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'user_info' }) { f.text_area :info, :rows => 6, :cols => 70 } %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            uploaded
+          </td>
+          <td>
+            <%= f.text_field :uploaded, :size => 25 %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            downloaded
+          </td>
+          <td>
+            <%= f.text_field :downloaded, :size => 25 %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center;">
+            <ul class="buttons">
+              <li><%= submit_tag 'create', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+

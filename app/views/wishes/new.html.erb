@@ -1,0 +1,74 @@
+
+<% page_name 'New Request' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>New Request</h2>
+
+    <% form_for :wish, url(:wishes, :create) do |f| %>
+      <table class="details">
+        <tr>
+          <td class="label">
+            Type
+          </td>
+          <td>
+            <%= f.select :type_id, :collection => @types, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Name
+          </td>
+          <td>
+            <%= f.text_field :name, :size => 62, :maxlength => 100 %>
+            <%= field_error @wish.errors[:name] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Format
+          </td>
+          <td>
+            <%= f.select :format_id, :collection => @formats, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Year
+          </td>
+          <td>
+            <%= f.text_field :year, :size => 6, :maxlength => 4 %>
+            <%= field_error @wish.errors[:year] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= f.select :country_id, :collection => @countries, :fields => [:description, :id], :include_blank => '' %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Description
+          </td>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'wish_description' }) { f.text_area :description, :rows => 8, :cols => 80 } %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="center">
+            <%= submit_tag 'Create', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+
+
+
+

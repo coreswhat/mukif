@@ -1,0 +1,8 @@
+
+  <% if flash.has?(:wish_comment_notice) %>
+    <%= content_tag :div, flash[:wish_comment_notice], :class => 'notice' %>
+  <% end %>
+
+  <% if flash.has?(:wish_comment_error) %>
+    <%= content_tag :div, flash[:wish_comment_error], :class => 'error' %>
+  <% end %>  

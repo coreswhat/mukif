@@ -1,0 +1,46 @@
+
+# running the specs tests
+
+  + create test database
+    $ padrino rake ar:create -e test
+    
+  + execute migrations
+    $ padrino rake ar:migrate -e test
+    
+  + run
+    $ spec spec -c -f n
+    $ spec spec/models -c -f n
+    $ spec spec/models/user_spec.rb -c -f n
+    $ spec spec/authentication -c -f n
+
+# dir structure:
+
+  - app_root  
+    - spec  
+      - authentication          - authentication module spec tests
+      - authorization           - authorization module spec tests
+      - bg_tasks                - bg_tasks module spec tests
+      - bittorrent              - bittorrent module spec tests
+      - models                  - models spec tests
+      - support                 
+        - test_data               - test data files
+          + bg_tasks_test.yml       + background tasks config
+          + invalid.torrent         + malformed torrent file
+          + test.txt                + empty text file
+          + valid.torrent           + valid torrent file
+        + fetchers.rb             + methods that retrieve or create records
+        + makers.rb               + methods that create records
+        + finders.rb              + methods that retrieve records
+        + misc.rb                 + methods used by the test classes
+        + support_variables.rb    + methods that create variables used by the test classes
+      + spec_helper.rb          + rspec config file
+
+  # Note that when a test class needs to create a record it calls a method in 'fetchers.rb' 
+    or in 'makers.rb', that use pure active_record to create the records. If you want to use
+    a factory strategy just change the methods in these files, with no need to change the specs.
+
+  # The support files described above are also used by the cucumber features tests, located
+    in the dir 'features/'.
+    
+
+

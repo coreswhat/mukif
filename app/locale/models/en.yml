@@ -1,0 +1,161 @@
+# * WARNING: changing this file may break the tests *
+
+en:
+  m:  
+    comment:
+      errors:
+        attributes:
+          body:
+            required: "Body required."
+                
+    message:
+      before_create:
+        default_subject: "no subject"
+      prepare_for_forward:
+        prefix: "Fwd:"
+        wrote: "wrote:"
+      prepare_for_reply:
+        prefix: "Re:"
+        wrote: "wrote:"
+      errors:
+        attributes:
+          receiver_id:
+            inactive: "User is not active."
+            invalid: "A valid username is required."
+            system: "System do not accept messages."
+
+    post:
+      errors:
+        attributes:
+          body:
+            required: "Body required."
+
+    reward:
+      errors:
+        attributes:
+          amount:
+            required: "Amount required."
+                    
+    topic:
+      errors:
+        attributes:
+          title:
+            required: "Title required."
+          body:
+            required: "Body required."
+                     
+    torrent:
+      log_activation:
+        log: "Torrent \"%{name}\" was activated by %{by}."
+      log_destruction:
+        log: "Torrent \"%{name}\" was deleted by %{by}."
+      log_edition:
+        log: "Torrent \"%{name}\" was edited by %{by} (%{reason})."
+      log_inactivation:
+        log: "Torrent \"%{name}\" inactivated by %{by}."
+      log_upload:
+        log: "Torrent \"%{name}\" was uploaded by %{by}."
+        log_anonymous: "Torrent \"%{name}\" was uploaded anonymously."
+      notify_activation:
+        subject: "torrent activated"
+        body: "Your torrent [b][torrent=%{id}]%{name}[/torrent][/b] was activated by [b][user=%{activator_id}]%{activator}[/user][/b]."
+      notify_destruction:
+        subject: "torrent deleted"
+        body: "Your torrent [b]%{name}[/b] was deleted by [b][user=%{destroyer_id}]%{destroyer}[/user][/b] (%{reason})."
+      notify_inactivation:
+        subject: "torrent inactivated"
+        body: "Your torrent [b]%{name}[/b] was temporarily inactivated by [b][user=%{inactivator_id}]%{inactivator}[/user][/b] (%{reason})."
+      request_reseed:
+        notification_subject: "reseed requested"
+        notification_body: "A reseed request for torrent [b][torrent=%{id}]%{name}[/torrent][/b] was done by [b][user=%{requester_id}]%{requester}[/user][/b]. Thanks for your help."
+      errors:
+        attributes:
+          info_hash:
+            taken:  "Torrent file already uploaded."
+          name:
+            required: "Name required."
+          torrent_file:
+            required: "Torrent file required."
+            type: "Must be a file of type torrent."
+            size: "Torrent file size cannot exceed %{max_size} KB, increase the pieces size."
+            invalid: "Invalid torrent file."
+          year:
+            invalid: "Invalid year."
+
+    user:
+      log_destruction:
+        log: "User %{username} removed by %{by}."
+      notify_passkey_resetting:
+        subject: "passkey reset"
+        body: "Your passkey was reset for security reasons, please re-download your active torrents."
+      notify_ratio_watch:
+        subject: "you are under ratio watch"
+        body: "Your ratio is in violation of the site rules, you have until %{watch_until} to fix it."
+      errors:
+        attributes:
+          current_password:
+            required: "Current password required."
+            incorrect: "Current password incorrect."
+          email:
+            required: "Email required."
+            taken: "Email already in use."
+            invalid_format: "Invalid email."
+            invalid_size: "Length cannot exceed 100."
+          invitation_code:
+            invalid: "Invitation code invalid."
+            required: "Invitation code required."
+          password:
+            required: "Password required."
+            incorrect: "Password incorrect."
+            invalid_size: "Length must be between 5 and 40."
+          password_confirmation:
+            invalid_confirmation: "Incorrect password confirmation."
+          username:
+            required: "Username required."
+            taken: "Username already in use."
+            invalid_size: "Length must be between 3 and 20."
+            invalid_format: "Use letters, numbers, underscore or dash."
+
+    wish:
+      log_approval:
+        log: "Request \"%{name}\" was filled by %{by}."
+      log_creation:
+        log: "Request \"%{name}\" was created by %{by}."
+      log_destruction:
+        log: "Request \"%{name}\" was removed by %{by} (%{reason})."
+      notify_approval:
+        wisher_subject: "your request has been filled"
+        wisher_body: "Your request [b][wish=%{id}]%{name}[/wish][/b] has been filled."        
+        filler_subject: "request filling approved"
+        filler_body: "Your filling for request [b][wish=%{id}]%{name}[/wish][/b] was approved."
+        filler_body_with_amount: "Your filling for request [b][wish=%{id}]%{name}[/wish][/b] was approved. The request bounty was added to your upload credit."
+        bounter_subject: "request filled"
+        bounter_body: "Request [b][wish=%{id}]%{name}[/wish][/b] has been filled."
+      notify_destruction:
+        subject: "request removed"
+        body: "Your request [b]%{name}[/b] was removed by [b][user=%{destroyer_id}]%{destroyer}[/user][/b] (%{reason})."
+      notify_rejection:
+        subject: "request filling rejected"
+        body: "Your filling for request [b][wish=%{id}]%{name}[/wish][/b] was rejected by [b][user=%{rejecter_id}]%{rejecter}[/user][/b] (%{reason})."
+      status:
+        filled: "Filled"
+        pending: "Pending"
+        open: "Open"
+      errors:
+        attributes:
+          name:
+            required: "Name required."
+          year:
+            invalid: "Invalid year."
+
+    wish_bounty:
+      errors:
+        attributes:
+          amount:
+            required: "Amount required."
+               
+    wish_comment:
+      errors:
+        attributes:
+          body:
+            required: "Body required."

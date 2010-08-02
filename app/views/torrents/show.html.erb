@@ -1,0 +1,234 @@
+
+<% page_name 'Torrent Details' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>Torrent Details</h2>
+
+    <div class="torrent_header">
+      <%= torrent_link @torrent %>
+    </div>
+    
+    <% if @torrent.free? %>
+      <div class="alert">
+        <% if @torrent.free_until %>
+          This torrent is free until <%= l @torrent.free_until, :format => :short %>, snatching it will not affect your upload credit.
+        <% else %>
+          This torrent is currently free, snatching it will not affect your upload credit.
+        <% end %>
+      </div>
+    <% end %>
+    
+    <%= partial 'misc/flash' %>
+
+    <table class="details torrent_details margin_bottom">
+      <tr>
+        <td class="label">
+          Download
+        </td>
+        <td>
+          <div class="torrent_download_link float_left">
+            <%= torrent_download_link @torrent, true %>            
+          </div>
+
+          <div class="float_right">
+            <ul class="menu">
+              <% if @torrent.user == current_user || current_user.admin_mod? %>
+                <li><%= link_to 'edit', url(:torrents, :edit, :id => @torrent) %></li>
+                <li>|</li>
+                <li><%= link_to 'remove', url(:torrents, :inactivate, :id => @torrent) %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if current_user.admin_mod? %>
+                <% unless @torrent.active? %>
+                  <li><%= link_to 'activate', url(:torrents, :activate, :id => @torrent), :method => :put, :class => 'mod', :confirm => 'Are you sure?' %></li>
+                  <li>|</li>
+                <% end %>
+
+                <li><%= link_to (@torrent.comments_locked? ? 'unlock' : 'lock'), url(:torrents, :switch_lock_comments, :id => @torrent), :method => :put, :class => 'mod' %></li>
+                <li>|</li>
+                <li><%= link_to 'delete', url(:torrents, :destroy, :id => @torrent), :class => 'mod' %></li>
+                <li>|</li>
+              <% end %>
+
+              <% unless @torrent.user == current_user %>
+                <li><%= link_to 'report', url(:reports, :new, :type => 'torrent', :id => @torrent) %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if @torrent.eligible_for_reseed_request? %>
+                <li><%= link_to 'reseed request', url(:torrents, :reseed_request, :id => @torrent) %></li>
+                <li>|</li>
+              <% end %>
+
+              <li><%= link_to 'rewards', url(:rewards, :index, :torrent_id => @torrent) %></li>
+              <li>|</li>              
+              <li><%= bookmark_textual_link @torrent %></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <% if current_user.admin_mod? %>
+        <tr>  
+          <td class="label">
+            active
+          </td>
+          <td>
+            <%= highlight_false @torrent.active %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Type
+        </td>
+        <td>
+          <%= @torrent.type.description %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Format
+        </td>
+        <td>
+          <%= @torrent.format.description %>
+        </td>
+      </tr>
+      <% if @torrent.source_id %>
+        <tr>
+          <td class="label">
+            Source
+          </td>
+          <td>
+            <%= @torrent.source.description %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @torrent.year %>
+        <tr>
+          <td class="label">
+            Year
+          </td>
+          <td>
+            <%= @torrent.year %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @torrent.country_id %>
+        <tr>
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= country_image @torrent.country %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Description
+        </td>
+        <td>
+          <div class="user_content">
+            <%= parse_data_to_html @torrent.description %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Info Hash
+        </td>
+        <td>
+          <%= @torrent.info_hash_hex %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Created
+        </td>
+        <td>
+          <%= textual_time_interval(@torrent.created_at, 'ago') %>
+        </td>
+      </tr>
+      <tr>  
+        <td class="label">
+          Created by
+        </td>
+        <td>
+          <%= @torrent.user ? user_link(@torrent.user, true) : 'unknown' %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Snatched
+        </td>
+        <td>
+          <ul class="compact">
+            <li><%= pluralize @torrent.snatches_count, 'time' %></li>
+            <% if @torrent.snatches_count > 0 && current_user.admin_mod? %>
+              <li><%= link_to '[ browse ]', url(:snatches, :torrent_snatches, :torrent_id => @torrent), :class => 'mod' %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+      <% if @torrent.total_reward > 0 %>
+        <tr>
+          <td class="label">
+            Total Reward
+          </td>
+          <td>
+            <%= textual_data_amount @torrent.total_reward %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td class="label">
+          Size
+        </td>
+        <td>
+          <%= textual_data_amount @torrent.size %>
+        </td>
+      </tr>
+      <tr>
+        <tr>  
+          <td class="label">
+            Files
+          </td>
+          <td class="left">
+            <%= partial 'torrents/mapped_files', :locals => {:mapped_files => @mapped_files} %>
+          </td>
+        </tr>
+      </tr>
+      <tr>  
+        <td class="label">
+          Peers
+        </td>
+        <td>
+          <ul class="compact">
+            <li><%= "#{@torrent.seeders_count} seeding + #{@torrent.leechers_count} leeching = #{@torrent.total_peers} total" %></li>
+            <% if @torrent.total_peers > 0 && current_user.admin_mod? %>
+              <li><%= link_to '[ browse ]', url(:peers, :torrent_peers, :torrent_id => @torrent), :class => 'mod' %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    </table>
+
+    <a name="comments"/></a>
+
+    <%= partial 'torrents/comment_flash' %>
+
+    <%= partial 'torrents/comment', :collection => @comments, :locals => {:torrent => @torrent, :current_page => @comments.current_page} %>
+
+    <%= will_paginate @comments %>
+
+    <% if !@torrent.comments_locked? || current_user.admin_mod? %>
+      <h3>Comment</h3>
+      <%= partial 'torrents/comment_box', :locals => {:torrent => @torrent} %>
+    <% end %>
+  </div>
+</div>
+
+

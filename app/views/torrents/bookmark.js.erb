@@ -1,0 +1,14 @@
+
+
+<% if params[:image] == '1' %>
+
+  replace_html('<%= "bookmark_span_#{@torrent.id}" %>', '<%= bookmark_image(@torrent) %>')
+  
+<% else %>
+
+  replace_html('bookmark_span', '<%= bookmark_text(@torrent) %>')  
+  
+<% end %>
+
+
+  

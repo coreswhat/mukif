@@ -1,0 +1,76 @@
+
+<% page_name 'Roles' %>
+
+<div class="main">
+  
+  <h2>roles</h2>
+
+  <%= partial 'misc/flash' %>
+
+  <div class="links">
+    <%= link_to '[ new ]', url(:roles, :new), :class => 'owner' %>
+  </div>
+  
+  <table class="browse">
+    <tr>
+      <td class="header_order_by">
+        &nbsp; id &nbsp;
+      </td>
+      <td class="header">
+        name
+      </td>
+      <td class="header">
+        description
+      </td>
+      <td class="header">
+        css_class
+      </td>
+      <td class="header">
+        tickets
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+    </tr>
+    <% unless @roles.blank? %>
+      <% @roles.each do |r| %>
+        <tr>
+          <td>
+            <%= r.id %>
+          </td>
+          <td>
+            <a class="<%= r.css_class %>"><%= r.name %></a>
+          </td>
+          <td>
+            <%= r.description %>
+          </td>
+          <td>
+            <%= r.css_class %>
+          </td>
+          <td>
+            <%= r.tickets %>
+          </td>
+          <td>
+            <%= link_to '[ edit ]', url(:roles, :edit, :id => r), :class => 'owner' %>
+          </td>
+          <td>
+            <% unless r.default? %>
+              <%= link_to '[ delete ]', url(:roles, :destroy, :id => r), :method => :delete, :class => 'owner', :confirm => 'Are you sure?' %>
+            <% else %>
+              <span class="grey">[ delete ]</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="6">
+          no roles found
+        </td> 
+      </tr>
+    <% end %>
+  </table>
+</div>

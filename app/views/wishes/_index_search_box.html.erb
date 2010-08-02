@@ -1,0 +1,27 @@
+  
+  <div class="fields_box margin_bottom" style="width:800px;">
+    <% form_tag url(:wishes, :index), :method => :get do %>
+      <table>
+        <tr>
+          <td class="label">
+            Unfilled:
+          </td>
+          <td>
+            <%= check_box_tag :unfilled, :value => '1', :checked => params[:unfilled] == '1' %>
+          </td>
+          <td class="label">
+            Type:
+          </td>
+          <td>
+            <%= select_tag :type_id, :collection => @types, :fields => [:description, :id], :selected => params[:type_id], :include_blank => '' %>
+          </td>
+          <td>
+            <%= text_field_tag :keywords, :value => params[:keywords], :size => 45, :maxlength => 100 %>
+          </td>
+          <td>
+            <%= submit_tag 'Search', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>

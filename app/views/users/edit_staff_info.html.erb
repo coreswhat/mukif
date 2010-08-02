@@ -1,0 +1,30 @@
+
+<% page_name 'Staff Info Edition' %>
+
+<div class="main">  
+  
+  <h2>staff info edition</h2>
+
+  <div class="user_header">
+    <%= user_link @user %>
+  </div>
+
+  <div class="fields_box" style="width:520px;">
+    <% form_tag url(:users, :update_staff_info, :id => @user), :method => :put do %>
+      <table>
+        <tr>
+          <td>
+            <%= text_area_tag :staff_info, :value => @user.staff_info, :rows => 6, :cols => 60 %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center;">
+            <ul class="buttons">
+              <li><%= submit_tag 'edit', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

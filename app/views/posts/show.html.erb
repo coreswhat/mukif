@@ -1,0 +1,60 @@
+
+<% page_name 'Forums' %>
+
+<div class="main">
+  <div class="forums">
+    
+    <div class="page_header">
+      <%= link_to 'Forums', url(:forums, :index) %>
+    </div>
+
+    <div class="forum_name">
+      <%= link_to @post.forum.name, url(:forums, :show, :id => @post.forum) %>
+    </div>
+
+    <div class="topic_title">
+      <%= link_to @post.topic.title, url(:topics, :show, :forum_id => @post.forum, :id => @post.topic) %>
+    </div>
+
+    <table class="post">
+      <tr>
+        <td colspan="2" class="head">
+          <div class="float_left">
+            <%= @post.post_number %>
+            |
+            posted by
+            <%= @post.user ? user_link(@post.user) : 'unknown' %>
+            -
+            <%= textual_time_interval @post.created_at, 'ago' %>
+            &nbsp;
+            <% if @post.edited_at %>
+              <span class="edited_by">
+                <%= "(edited by  #{@post.edited_by} #{textual_time_interval @post.edited_at, 'ago'})" %>
+              </span>
+            <% end %>
+          </div>
+
+          <div class="float_right">
+            <%= link_to 'edit', url(:posts, :edit, :forum_id => @post.forum, :topic_id => @post.topic, :id => @post) %>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="avatar">
+          <%= avatar_image @post.user %>
+        </td>
+        <td>
+          <div class="user_content" id="content<%= @post.id %>">
+            <%= parse_data_to_html @post.body %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+

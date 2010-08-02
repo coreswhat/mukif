@@ -1,0 +1,17 @@
+
+Authentication module inspired by the restful_authentication plugin.
+
+# dir structure:
+
+  - app_root  
+    - lib  
+      - authentication            
+        - user_model                - modules to be included in the user model
+          + encryption.rb             + encryption utility methods
+          + password.rb               + authentication by password
+          + remember_token.rb         + authentication by a token stored in a cookie
+          + session_token.rb          + authentication by a token and the user id stored in the session
+        + auth_keys.rb              + parameters used to encrypt data
+        + helpers.rb                + app helpers module
+        + authentication.rb         + main module class
+   

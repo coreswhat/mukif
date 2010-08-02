@@ -1,0 +1,190 @@
+
+<% page_name 'Request Details' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>Request Details</h2>
+
+    <div class="wish_header">
+      <%= wish_link @wish %>
+    </div>
+
+    <%= partial 'misc/flash' %>
+
+    <table class="details wish_details margin_bottom">
+      <tr>
+        <td class="label">
+          Status
+        </td>
+        <td>
+          <div class="float_left">
+            <%= highlight_true @wish.filled?, @wish.status, @wish.status %>
+          </div>
+
+          <div class="float_right">
+            <ul class="menu">
+              <% if @wish.open? && @wish.user != current_user %>
+                <li><%= link_to 'fill this request', url(:wishes, :fill, :id => @wish) %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if @wish.pending? && current_user.admin_mod? %>
+                <li><%= link_to 'approve', url(:wishes, :approve, :id => @wish), :method => :put, :class => 'mod', :confirm => 'Are you sure?' %></li>
+                <li>|</li>
+                <li><%= link_to 'reject', url(:wishes, :reject, :id => @wish), :class => 'mod' %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if (@wish.open? && @wish.user == current_user) || current_user.admin_mod? %>
+                <li><%= link_to 'edit', url(:wishes, :edit, :id => @wish) %></li>
+                <li>|</li>
+                <li><%= link_to 'remove', url(:wishes, :destroy, :id => @wish) %></li>
+                <li>|</li>
+              <% end %>
+
+              <% if current_user.admin_mod? %>
+                <li><%= link_to (@wish.comments_locked? ? 'unlock' : 'lock'), url(:wishes, :switch_lock_comments, :id => @wish), :method => :put, :class => 'mod' %></li>
+                <li>|</li>
+              <% end %>
+              
+              <% if @wish.user != current_user %>
+                  <li><%= link_to 'report', url(:reports, :new, :type => 'wish', :id => @wish) %></li>
+                  <li>|</li>
+              <% end %>
+
+              <li><%= link_to 'bounties', url(:wish_bounties, :index, :wish_id => @wish) %></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Type
+        </td>
+        <td>
+          <%= @wish.type.description %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Format
+        </td>
+        <td>
+          <%= @wish.format_id ? @wish.format.description : 'Any' %>
+        </td>
+      </tr>
+      <% if @wish.year %>
+        <tr>
+          <td class="label">
+            Year
+          </td>
+          <td>
+            <%= @wish.year %>
+          </td>
+        </tr>
+      <% end %>
+      <% if @wish.country_id %>
+        <tr>
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= country_image @wish.country %>
+          </td>
+        </tr>
+      <% end %>
+      <tr>  
+        <td class="label">
+          Description
+        </td>
+        <td>
+          <div class="user_content">
+            <%= parse_data_to_html @wish.description %>
+          </div>
+        </td>
+      </tr>
+      <tr>  
+        <td class="label">
+          Created
+        </td>
+        <td>
+          <%= textual_time_interval(@wish.created_at, 'ago') %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Created by
+        </td>
+        <td>
+          <%= @wish.user ? user_link(@wish.user, true) : 'unknown' %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Bounty
+        </td>
+        <td>
+          <%= textual_data_amount @wish.total_bounty %>
+        </td>
+      </tr>
+      <% if @wish.filled? || (@wish.pending && current_user.admin_mod?) %>
+        <tr>
+          <td class="label">
+            Filled
+          </td>
+          <td>
+            <%= textual_time_interval(@wish.filled_at, 'ago') %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Filled by
+          </td>
+          <td>
+            <%= @wish.filler ? user_link(@wish.filler) : 'unknown' %>
+          </td>
+        </tr>
+        <% if @wish.filled? %>
+          <tr>
+            <td class="label">
+              Approved by
+            </td>
+            <td>
+              <%= @wish.approver ? user_link(@wish.approver) : 'unknown' %>
+            </td>
+          </tr>
+        <% end %>          
+        <tr>
+          <td class="label">
+            Torrent
+          </td>
+          <td>
+            <%= link_to 'click here', url(:torrents, :show, :id => @wish.torrent_id) %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+
+    <a name="comments"></a>
+
+    <%= partial 'wishes/wish_comment_flash' %>
+
+    <%= partial 'wishes/wish_comment', :collection => @wish_comments, :locals => {:wish => @wish, :current_page => @wish_comments.current_page} %>
+
+    <%= will_paginate @wish_comments %>
+
+    <% if !@wish.comments_locked? || current_user.admin_mod? %>
+      <h3>Comment</h3>
+      <%= partial 'wishes/wish_comment_box', :locals => {:wish => @wish} %>
+    <% end %>
+  </div>
+</div>
+  
+  
+  
+  
+  
+  
+
+

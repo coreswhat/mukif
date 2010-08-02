@@ -1,0 +1,70 @@
+
+<% page_name 'Clients' %>
+
+<div class="main">
+  
+  <h2>clients</h2>
+
+  <div class="links">
+    <%= link_to '[ new ]', url(:clients, :new), :class => 'admin' %>
+  </div>
+
+  <table class="browse">
+    <tr>
+      <td class="header">
+        &nbsp; id &nbsp;
+      </td>
+      <td class="header">
+        code
+      </td>
+      <td class="header_order_by">
+        description
+      </td>
+      <td class="header">
+        banned
+      </td>
+      <td class="header">
+        min_version
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+    </tr>
+    <% unless @clients.blank? %>
+      <% @clients.each do |c| %>
+        <tr>
+          <td>
+            <%= c.id %>
+          </td>
+          <td>
+            <%= c.code %>
+          </td>
+          <td>
+            <%= c.description %>
+          </td>
+          <td>
+            <%= c.banned %>
+          </td>
+          <td>
+            <%= c.min_version %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ edit ]', url(:clients, :edit, :id => c), :class => 'admin' %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ delete ]', url(:clients, :destroy, :id => c), :method => :delete, :class => 'admin', :confirm => 'Are you sure?' %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7">
+          no clients found
+        </td> 
+      </tr>
+    <% end %>
+  </table>
+</div>

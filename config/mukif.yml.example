@@ -1,0 +1,295 @@
+
+production:
+  # application name (appears in the browse window)
+  app_name: Mukif
+
+  # application unix name (used in system operations)
+  app_unix_name: mukif
+
+  # default locale
+  default_locale: en
+
+  login:
+    # login max attempts before blocking
+    max_attempts: 5
+    # how many hours the user's IP will remain blocked if limit exceeded
+    block_hours: 4
+    # how many days until remember cookie expires
+    remember_me_days: 30
+
+  users:
+    # default avatar image.
+    default_avatar: no_avatar.jpg
+
+  torrents:
+    # torrent file maximum size (such files are temporarily loaded in memory so be careful)
+    file_max_size_kb: 256
+
+    # false will block torrent uploads for non-admins (mainly for demo purposes)
+    upload_enabled: true
+
+    # period that a torrent remains labeled as new after it was uploaded
+    new_period_minutes: 120
+
+    # if set will be put in the beginning of the torrent file name(e.g '[mogok] Test.torrent')
+    file_prefix: mukif
+
+    # if set will replace the original torrent file comment entry
+    file_comment: Downloaded from Mukif
+
+    # the cost of a reseed request
+    reseed_request_cost_mb: 20
+
+    # the number of snatchers to be notified when a reseed request is made
+    reseed_request_notifications: 10
+
+  # size of pages when browsing data (aka pagination)
+  page_size:
+    announce_logs: 50
+    forum_posts: 15
+    forum_search_results: 20
+    forum_topics: 20
+    logs: 50
+    messages: 20
+    peers: 50
+    rewards: 20
+    stats_history: 20
+    torrents: 100
+    torrent_comments: 20
+    torrent_peers: 20
+    torrent_rewards: 20
+    torrent_snatches: 20
+    users: 20
+    user_activity: 15
+    user_snatches: 20
+    user_uploads: 20
+    wishes: 50
+    wish_bounties: 20
+
+  browse:
+    header_css_class: header
+    header_order_by_css_class: header_order_by
+    header_link_css_class: header
+
+    # columns showed by default in a decrescent way when header is clicked the fist time
+    default_desc:
+      announce_logs:
+        - created_at
+        - up_offset
+        - down_offset
+      torrents:
+        - created_at
+        - comments_count
+        - snatches_count
+        - seeders_count
+        - leechers_count
+      users:
+        - uploaded
+        - downloaded
+        - ratio
+      wishes:
+        - created_at
+        - total_bounty
+        
+  # MAILER
+    
+  mailer:
+    smtp:
+      address: smtp.gmail.com
+      port: 587
+      user_name: 
+      password: 
+      authentication: :plain
+      enable_starttls_auto: true 
+  
+  # ADMINISTRATION
+  
+  adm:
+    # enable the passenger restart link also in production (env page)
+    passenger_restart_production: true
+
+    # display sensitive environment information in production (env page)
+    display_all_env_info_production: true
+
+    # enable 'update with whenever gem' link in the bg_tasks page
+    crontab_update_enabled:  true
+
+  # TRACKER
+
+  tracker:
+    # PASSKEY will be replaced by the user passkey
+    url: http://localhost/tracker/PASSKEY/announce 
+
+
+development:
+  app_name: Mukif!
+  app_unix_name: mukif
+  default_locale: en
+  login:
+    max_attempts: 5
+    block_hours: 4
+    remember_me_days: 30
+  users:
+    default_avatar: no_avatar.jpg
+  torrents:
+    refresh_minutes: 2
+    file_max_size_kb: 256
+    upload_enabled: true
+    new_period_minutes: 10
+    file_prefix: mukif
+    file_comment: Downloaded from Mukif
+    reseed_request_cost_mb: 10
+    reseed_request_notifications: 10
+  page_size:
+    announce_logs: 2
+    forum_posts: 2
+    forum_search_results: 2
+    forum_topics: 2
+    logs: 2
+    messages: 3
+    peers: 2
+    rewards: 2
+    stats_history: 2
+    torrents: 2
+    torrent_comments: 2
+    torrent_peers: 2
+    torrent_rewards: 2
+    torrent_snatches: 1
+    users: 2
+    user_activity: 2
+    user_snatches: 2
+    user_uploads: 2
+    wishes: 2
+    wish_bounties: 2
+  browse:
+    header_css_class: header
+    header_order_by_css_class: header_order_by
+    header_link_css_class: header
+    default_desc:
+      announce_logs:
+        - created_at
+        - up_offset
+        - down_offset
+      torrents:
+        - created_at
+        - comments_count
+        - snatches_count
+        - seeders_count
+        - leechers_count
+      users:
+        - uploaded
+        - downloaded
+        - ratio
+      wishes:
+        - created_at
+        - total_bounty
+  mailer:
+    smtp:
+      address: smtp.gmail.com
+      port: 587
+      user_name:
+      password: 
+      authentication: :plain
+      enable_starttls_auto: true         
+  adm:
+    crontab_update_enabled: true
+  tracker:
+    url: http://localhost:4000/PASSKEY/announce
+
+
+test:
+  app_name: Mukif [Test]
+  app_unix_name: mukif
+  default_locale: en
+  login:
+    max_attempts: 5
+    block_hours: 4
+    remember_me_days: 30
+  users:
+    default_avatar: no_avatar.jpg
+  torrents:
+    refresh_minutes: 2
+    file_max_size_kb: 256
+    upload_enabled: true
+    new_period_minutes: 10
+    file_prefix: mukif
+    file_comment: Downloaded from Mukif
+    reseed_request_cost_mb: 10
+    reseed_request_notifications: 10
+  page_size:
+    announce_logs: 2
+    forum_posts: 2
+    forum_search_results: 2
+    forum_topics: 2
+    logs: 2
+    messages: 3
+    peers: 2
+    rewards: 2
+    stats_history: 2
+    torrents: 2
+    torrent_comments: 2
+    torrent_peers: 2
+    torrent_rewards: 2
+    torrent_snatches: 2
+    users: 2
+    user_activity: 2
+    user_snatches: 2
+    user_uploads: 2
+    wishes: 2
+    wish_bounties: 2
+  browse:
+    header_css_class: header
+    header_order_by_css_class: header_order_by
+    header_link_css_class: header
+    default_desc:
+      announce_logs:
+        - created_at
+        - up_offset
+        - down_offset
+      torrents:
+        - created_at
+        - comments_count
+        - snatches_count
+        - seeders_count
+        - leechers_count
+      users:
+        - uploaded
+        - downloaded
+        - ratio
+      wishes:
+        - created_at
+        - total_bounty
+  mailer:
+    smtp:
+      address: smtp.gmail.com
+      port: 587
+      user_name:
+      password: 
+      authentication: :plain
+      enable_starttls_auto: true        
+  adm:
+    crontab_update_enabled:  true
+  tracker:
+    url: http://localhost:4000/PASSKEY/announce
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#

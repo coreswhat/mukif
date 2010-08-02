@@ -1,0 +1,16 @@
+
+  <div class="fields_box margin_bottom" style="width:400px;">
+    <% url = (action == :show) ? url(:forums, action, :id => forum) : url(:forums, action) %>
+    <% form_tag url, :method => :get do %>
+      <table>
+        <tr>
+          <td>
+            <%= text_field_tag :keywords, :value => params[:keywords], :size => 40, :maxlength => 80 %>
+          </td>
+          <td>
+            <%= submit_tag 'Search', :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>

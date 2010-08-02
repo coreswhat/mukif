@@ -1,0 +1,70 @@
+
+<% page_name 'Application Parameters' %>
+
+<div class="main">
+  
+  <h2>app params</h2>
+
+  <% if current_user.owner? %>
+    <div class="links">
+      <%= link_to '[ new ]', url(:app_params, :new), :class => 'owner' %>
+    </div>
+  <% end %>          
+  
+  <table class="browse">
+    <tr>
+      <td class="header">
+        &nbsp; id &nbsp;
+      </td>
+      <td class="header">
+        name
+      </td>
+      <td class="header">
+        value
+      </td>
+      <td class="header">
+        class
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+      <td class="header">
+        &nbsp;
+      </td>
+    </tr>
+    <% unless @app_params.blank? %>
+      <% @app_params.each do |p| %>
+        <tr>
+          <td>
+            <%= p.id %>
+          </td>
+          <td>
+            <%= p.name %>
+          </td>
+          <td>
+            <%= p.value %>
+          </td>
+          <td>
+            <%= p.value.class %>
+          </td>
+          <td class="no_wrap">
+            <%= link_to '[ edit ]', url(:app_params, :edit, :id => p), :class => 'admin' %>
+          </td>
+          <td class="no_wrap">
+            <% if current_user.owner? %>
+              <%= link_to '[ delete ]', url(:app_params, :destroy, :id => p), :method => :delete, :class => 'owner', :confirm => 'Are you sure?' %>
+            <% else %>
+              <span class="grey">[ delete ]</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td colspan="6">
+          no app params found
+        </td> 
+      </tr>
+    <% end %>
+  </table>
+</div>

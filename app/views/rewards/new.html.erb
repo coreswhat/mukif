@@ -1,0 +1,45 @@
+
+<% page_name 'New Torrent Reward' %>
+
+<div class="main">
+  
+  <h2>New Torrent Reward</h2>
+
+  <div class="torrent_header">
+    <%= torrent_link @torrent %>
+  </div>
+
+  <%= partial 'misc/flash' %>
+
+  <div class="fields_box" style="width:700px;">
+    <% form_tag url(:rewards, :create, :torrent_id => @torrent) do %>
+      <table>
+        <tr>
+          <td class="grey bold">
+            After confirmation, the amount below will be transferred to the torrent uploader.
+          <td>
+        </tr>
+        <tr>
+          <td class="center">
+            <ul>
+              <li>
+                <%= text_field_tag :reward_amount, :value => params[:reward_amount], :size => 8, :maxlength => 10 %>
+              </li>
+              <li>
+                <%= select_tag :reward_unit, :options => ['MB', 'GB'], :selected => params[:reward_unit] %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'Confirm', :class => 'submit' %></li>
+              <li><%= submit_tag 'Cancel', :name => 'cancel', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

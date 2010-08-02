@@ -1,0 +1,43 @@
+  
+  <div class="fields_box margin_bottom" style="width:750px;">
+    <% form_tag url(:torrents, :index), :method => :get do %>
+      <%= hidden_field_tag :s, :value => '1' %>
+      <table>
+        <tr>  
+          <td>
+            <%= partial 'misc/types_grid', :locals => {:rows => 9, :types => @types} %>
+          </td>
+        </tr>
+      </table>
+      <table>
+        <tr>
+          <td class="label">
+            Format:
+          </td>
+          <td>
+            <%= select_tag :format_id, :collection => @formats, :fields => [:description, :id], :selected => params[:format_id].to_i, :include_blank => '' %>
+          </td>
+          <td class="label">
+            Country:
+          </td>
+          <td>
+            <%= select_tag :country_id, :collection => @countries, :fields => [:description, :id], :selected => params[:country_id].to_i, :include_blank => '' %>
+          </td>
+          <td class="label">
+            Filter:
+          </td>
+          <td>
+            <% filter_options = [['Free', 'free'], ['Alive', 'alive'], ['Dead', 'dead']] %>
+            <% filter_options << ['Inactive', 'inactive'] if current_user.admin_mod? %>
+            <%= select_tag :filter, :options => filter_options, :selected => params[:filter], :include_blank => '' %>
+          </td>          
+          <td>
+            <%= text_field_tag :keywords, :value => params[:keywords], :size => 35, :maxlength => 100 %>
+          </td>
+          <td>
+            <%= submit_tag 'Search', :name => nil, :class => 'submit' %>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>

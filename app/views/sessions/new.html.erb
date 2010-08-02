@@ -1,0 +1,80 @@
+
+<% page_name 'Login' %>
+
+<div style="margin-top:80px;text-align:center;">
+  <h2>Please login</h2>
+</div>
+
+<%= partial 'misc/flash' %>
+
+<div class="fields_box margin_bottom" style="width:300px;">
+  <% form_tag url(:sessions, :create) do %>
+    <table>
+      <tr>
+        <td class="label">
+          Username:
+        </td>
+        <td>
+          <%= text_field_tag :username, :value => params[:username], :size => 25, :maxlength => 20 %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Password:
+        </td>
+        <td>
+          <%= password_field_tag :password, :value => '', :size => 25, :maxlength => 40 %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          &nbsp;
+        </td>
+        <td>
+          <ul class="compact">
+            <li><%= check_box_tag :remember_me %></li>
+            <li>Keep me logged in.</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="center">
+          <%= submit_tag 'Login', :class => 'submit' %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+<div class="links bold">
+  <%= link_to '[ forgot my password ]', url(:accounts, :recovery) %>
+
+  <br/>
+  
+  <br/>
+    
+  <% if @app_params[:signup_open] %>
+    <%= link_to '[ sign up ]', url(:accounts, :new) %>
+  <% else %>
+    <span class="bold">[ sign up currently closed ]</span>
+  <% end %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

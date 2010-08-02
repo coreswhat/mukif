@@ -1,0 +1,45 @@
+
+<% page_name 'Tracker' %>
+
+<div class="main">
+  <div class="inner" style="width:800px;">
+        
+    <h2>tracker</h2>
+
+    <div class="links">
+      <%= content_tag :a, '[ check ]', :href => @tracker_properties[:test_url], :class => 'admin' %>
+    </div>
+
+    <table class="details">
+      <tr>
+        <td class="label">
+          announce url
+        </td>
+        <td>
+          <%= @tracker_properties[:announce_url] %>
+        </td>
+      </tr>
+      <td class="label">
+          last peer activity
+        </td>
+        <td>
+          <%= @tracker_properties[:last_peer_activity] ? (textual_time_interval @tracker_properties[:last_peer_activity], 'ago') : 'no peers found' %>
+        </td>
+      </tr>   
+      <td class="label">
+          peers count
+        </td>
+        <td>
+          <%= @tracker_properties[:peers_count] %>
+        </td>
+      </tr>
+      <td class="label">
+          announce logs count
+        </td>
+        <td>
+          <%= @tracker_properties[:announce_logs_count] %>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+
+<% page_name 'Signup' %>
+
+<div style="margin-top:80px;text-align:center;">
+  <h2>Sign Up</h2>
+</div>
+
+<%= partial 'misc/flash' %>
+
+<% if @app_params[:signup_by_invitation_only] %>
+  <div class="alert">Sign up currently by invitation only.</div>
+<% else %>
+  <div class="alert">Invitation code is currently optional.</div>
+<% end %>
+
+<div class="fields_box" style="width:350px;">
+  <% form_for :user, url(:accounts, :create) do |f| %>
+    <table cellpadding="3" cellspacing="1">
+      <tr>
+        <td class="label">
+          Username:
+        </td>
+        <td>
+          <%= f.text_field :username, :size => 30, :maxlength => 20 %>
+          <%= field_error @user.errors[:username] %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Password:
+        </td>
+        <td>
+          <%= f.password_field :password, :size => 30, :maxlength => 40 %>
+          <%= field_error @user.errors[:password] %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Confirm:
+        </td>
+        <td>
+          <%= f.password_field :password_confirmation, :size => 30, :maxlength => 40 %>
+          <%= field_error @user.errors[:password_confirmation] %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Email:
+        </td>
+        <td>
+          <%= f.text_field :email, :size => 30, :maxlength => 100 %>
+          <%= field_error @user.errors[:email] %>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">
+          Invitation code:
+        </td>
+        <td>
+          <%= text_field_tag :invitation_code, :value => params[:invitation_code], :size => 30, :maxlength => 80 %>
+          <%= field_error @user.errors[:invitation_code] %>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="center">
+          <%= submit_tag 'Sign Up', :class => 'submit' %>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+<br/>
+  
+<div class="links bold">
+  <%= link_to '[ login ]', url(:sessions, :new) %>
+</div>
+
+

@@ -1,0 +1,38 @@
+
+<% page_name 'Request Filling' %>
+
+<div class="main">
+  
+  <h2>Request Filling</h2>
+  
+  <div class="wish_header">
+    <%= wish_link @wish %>
+  </div>
+
+  <%= partial 'misc/flash' %>
+
+  <div class="fields_box" style="width:650px;">
+    <% form_tag url(:wishes, :fill, :id => @wish), :method => :put do %>
+      <table>
+        <tr>
+          <td class="grey bold center">
+            Copy and paste the torrent's info hash below. The filling will remain pending until a moderator approves it.
+          <td>
+        </tr>
+        <tr>
+          <td class="center">
+            <%= text_field_tag :info_hash, :value => params[:info_hash], :size => 55, :maxlength => 50 %>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'Confirm', :class => 'submit' %></li>
+              <li><%= submit_tag 'Cancel', :name => 'cancel', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>

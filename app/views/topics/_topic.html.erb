@@ -1,0 +1,71 @@
+
+  <table class="topic" id="topic_description">
+    <tr>
+      <td colspan="2" class="head">
+        <div class="float_left">
+          <ul class="compact">
+            <li><%= topic.topic_number %></li>
+            <li>|</li>
+            <li>
+              created by
+              <%= topic.user ? user_link(topic.user) : 'unknown' %>
+              -
+              <%= textual_time_interval topic.created_at, 'ago' %>
+            </li>
+            <% if topic.edited_at %>
+              <li>
+                <span class="edited_by">
+                  <%= "(edited by  #{topic.edited_by} #{textual_time_interval topic.edited_at, 'ago'})" %>
+                </span>
+              </li>
+            <% end %>            
+          </ul>
+        </div>
+
+        <div class="float_right">
+          <ul class="menu">
+            <% if current_user.admin_mod? %>
+              <li><%= link_to 'delete', url(:topics, :destroy, :forum_id => topic.forum, :id => topic), :class => 'mod' %></li>
+              <li>|</li>
+              <li><%= link_to (topic.stuck? ? 'unstick' : 'stick'), url(:topics, :switch_stick, :id => topic), :method => :put, :class => 'mod' %></li>
+              <li>|</li>
+              <li><%= link_to (topic.posts_locked? ? 'unlock' : 'lock'), url(:topics, :switch_lock_posts, :id => topic), :method => :put, :class => 'mod' %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if current_user != topic.user %>
+              <li><%= link_to 'report', url(:reports, :new, :type => 'topic', :id => topic) %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if topic.editable_by? current_user %>
+              <li><%= link_to 'edit', url(:topics, :edit, :forum_id => topic.forum, :id => topic) %></li>
+              <li>|</li>
+            <% end %>
+
+            <% if !topic.posts_locked? || current_user.admin_mod? %>
+              <li>
+                <%= link_to 'quote', url(:topics, :quote, :id => topic, :format => :js), :class => 'quote_link hide', :remote => true %>
+                <span class="quote_link_no_script grey">quote</span>  
+              </li>
+            <% else %>
+              <li>
+                <span class="grey">quote</span>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="avatar">
+        <%= avatar_image topic.user %>
+      </td>
+      <td>
+        <div class="user_content">
+          <%= parse_data_to_html topic.body %>
+        </div>
+      </td>
+    </tr>
+  </table>
+  

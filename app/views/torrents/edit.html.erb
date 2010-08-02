@@ -1,0 +1,108 @@
+
+<% page_name 'Torrent Edition' %>
+
+<div class="main">
+  <div class="inner">
+    
+    <h2>Torrent Edition</h2>
+
+    <% form_for :torrent, url(:torrents, :update, :id => @torrent), :method => :put do |f| %>
+      <table class="details torrent_details">
+        <tr>
+          <td class="label">
+            Name
+          </td>
+          <td>
+            <%= f.text_field :name, :size => 62, :maxlength => 100 %>
+            <%= field_error @torrent.errors[:name] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Type
+          </td>
+          <td>
+            <%= f.select :type_id, :collection => @types, :fields => [:description, :id] %>            
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Format
+          </td>
+          <td>
+            <%= f.select :format_id, :collection => @formats, :fields => [:description, :id] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Source
+          </td>
+          <td>
+            <%= f.select :source_id, :collection => @sources, :fields => [:description, :id], :include_blank => '' %>            
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Year
+          </td>
+          <td>
+            <%= f.text_field :year, :size => 6, :maxlength => 4 %>
+            <%= field_error @torrent.errors[:year] %>
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Country
+          </td>
+          <td>
+            <%= f.select :country_id, :collection => @countries, :fields => [:description, :id], :include_blank => '' %>            
+          </td>
+        </tr>
+        <tr>
+          <td class="label">
+            Description
+          </td>
+          <td>
+            <%= partial_with_block('misc/editor', { :target => 'torrent_description' }) { f.text_area :description, :rows => 8, :cols => 80 } %>
+          </td>
+        </tr>
+        <% if current_user.admin_mod? %>
+          <tr>
+            <td class="label">
+              free
+            </td>
+            <td>
+              <%= f.check_box :free %>
+            </td>
+          </tr> 
+          <tr>
+            <td class="label">
+              free_until
+            </td>
+            <td>
+              <%= f.text_field :free_until, :size => 25 %>
+            </td>
+          </tr>                 
+          <tr>
+            <td class="label">
+              reason
+            </td>
+            <td>
+              <%= text_field_tag :reason, :value => params[:reason], :size => 62, :maxlength => 100 %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <td colspan="2" class="center">
+            <ul class="buttons">
+              <li><%= submit_tag 'Edit', :class => 'submit' %></li>
+              <li><%= submit_tag 'Cancel', :name => 'cancel', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+
+

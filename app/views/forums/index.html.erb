@@ -1,0 +1,50 @@
+
+<% page_name 'Forums' %>
+
+<div class="main">
+  <div class="forums" style="width:70%;">
+    <div class="page_header">Forums</div>
+
+    <%= partial 'forums/search_box', :locals => {:action => :search} %>
+
+    <% if current_user.owner? %>
+      <div class="links">
+        <%= link_to '[ new forum ]', url(:forums, :new), :class => 'owner' %>
+      </div>
+    <% end %>
+
+    <%= partial 'misc/flash' %>
+
+    <table class="forums">
+      <tr>
+        <td width="99%" class="header">
+          Name
+        </td>
+        <td class="header">
+          Topics
+        </td>
+      </tr>
+      <% unless @forums.blank? %>
+        <% @forums.each do |f| %>
+          <tr>
+            <td class="left">
+              <%= link_to f.name, url(:forums, :show, :id => f), :class => 'title' %>
+              <div class="description">
+                <%= f.description %>
+              </div>
+            </td>
+            <td>
+              <%= f.topics_count %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="2">
+            No forums found.
+          </td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

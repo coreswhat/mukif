@@ -1,0 +1,8 @@
+
+  <% username = @post.user ? @post.user.username : 'unknown' %>
+
+  <% s = "'[quote=#{username}]#{@post.body}[/quote]'" %>
+
+  insert_value(find_element_by_id('post_body'), <%= s %>);
+
+

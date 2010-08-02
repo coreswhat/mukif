@@ -1,0 +1,21 @@
+
+# running the features tests
+
+  + setup test database (see spec/README)
+    
+  + run
+    $ cucumber features -f pretty
+    $ cucumber features/messenger.feature -f pretty
+    $ cucumber features --name "scenario_name" -f pretty
+    
+# features dir structure
+
+  - app_root  
+    - features
+      - step_definitions        - cucumber and capybara steps
+      - support                 
+        + env.rb                  + cucumber config file
+        + hooks.rb                + cucumber hook steps
+        + paths.rb                + navigation paths    
+    - spec
+      - support                 - infrastructure used by the cucumber steps (see spec/README)

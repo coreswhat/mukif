@@ -1,0 +1,34 @@
+
+  <ul class="compact">
+    <li>
+      <%= mapped_files.size %>
+    </li>
+    <li>
+      <%= link_to '[ view | hide ]', url(:torrents, :show, :id => @torrent, :show_files => '1'), :id => 'show_hide_mapped_files' %>
+    </li>
+  </ul>
+
+  <div id="torrent_mapped_files" class="<%= params[:show_files] == '1' ? nil : 'hide' %>">
+    <div class="torrent_mapped_files">
+      <table class="browse left">
+        <tr>
+          <td class="header">
+            Name
+          </td>
+          <td class="header">
+            Size
+          </td>
+        </tr>
+        <% mapped_files.each do |f| %>
+          <tr>
+            <td class="left">
+              <%= f.name %>
+            </td>
+            <td>
+              <%= textual_data_amount f.size %>
+            </td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>

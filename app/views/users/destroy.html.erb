@@ -1,0 +1,26 @@
+
+<% page_name 'User Remotion' %>
+
+<div class="main">
+  
+  <h2>user deletion</h2>
+
+  <div class="user_header">
+    <%= user_link @user %>
+  </div>
+
+  <div class="fields_box" style="width:550px;">
+    <% form_tag url(:users, :destroy, :id => @user), :method => :delete do %>
+      <table>        
+        <tr>
+          <td>
+            <ul class="buttons">
+              <li><%= submit_tag 'delete', :class => 'submit' %></li>
+            </ul>
+          </td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
+

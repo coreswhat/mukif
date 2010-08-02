@@ -1,0 +1,56 @@
+
+  <div class="adm_menu">
+    <ul>
+      <li><%= link_to 'env', url(:adm, :env) %></li>
+      <li>|</li>
+      <li><%= link_to 'tracker', url(:adm, :tracker) %></li>
+      <li>|</li>
+      <li><%= link_to 'tasks', url(:bg_tasks, :index) %></li>
+      <li>|</li>
+      <li><%= link_to 'params', url(:app_params, :index) %></li>
+      <li>|</li>
+      <% unless session[:adm_domain_menu] %>
+        <li><%= link_to 'domain', url(:adm, :switch_domain_menu) %></li>
+        <li>|</li>
+      <% end %>
+      <li><%= link_to 'announces', url(:announce_logs, :index) %></li>
+      <li>|</li>
+      <li><%= link_to 'peers', url(:peers, :index) %></li>
+      <li>|</li>
+      <li><%= link_to 'reports', url(:reports, :index) %></li>
+      <li>|</li>
+      <li><%= link_to 'errors', 
+                      url(:error_logs, :index), 
+                      :class => ( (current_user.respond_to?(:error_log?) ? current_user.error_log? : false) ? 'error_log_alert' : nil ) %></li>
+      <li>|</li>
+      <li><%= link_to 'hide', url(:adm, :switch_menu) %></li>
+    </ul>
+  </div>
+
+  <% if session[:adm_domain_menu] %>
+    <div class="adm_domain_menu">
+      <ul>
+        <% if current_user.owner? %>
+          <li><%= link_to 'roles', url(:roles, :index), :class => 'owner' %></li>
+          <li>|</li>
+        <% end %>
+        <li><%= link_to 'styles', url(:styles, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'genders', url(:genders, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'types', url(:types, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'formats', url(:formats, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'sources', url(:sources, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'countries', url(:countries, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'clients', url(:clients, :index) %></li>
+        <li>|</li>
+        <li><%= link_to 'hide', url(:adm, :switch_domain_menu) %></li>
+      </ul>
+    </div>
+  <% end %>
+
+
